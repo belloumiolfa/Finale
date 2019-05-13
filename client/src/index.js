@@ -9,14 +9,29 @@ import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
 import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 
-import AdminLayout from "layouts/Admin.jsx";
+//import redux dependencies
+import Store from "./Redux/Store";
+import { Provider } from "react-redux";
+
+//import layouts
+import UserLayaout from "layouts/User";
+import Home from "layouts/Home";
+import Admin from "layouts/Admin";
+import Wait from "Welcom/Wait";
+import Confirm from "Welcom/Confirm";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
-    </Switch>
-  </BrowserRouter>,
+  <Provider store={Store}>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/user" render={props => <UserLayaout {...props} />} />
+        <Route path="/home" render={props => <Home {...props} />} />
+
+        <Route path="/admin" render={props => <Admin {...props} />} />
+
+        <Redirect from="/" to="/home/welcom" />
+      </Switch>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );

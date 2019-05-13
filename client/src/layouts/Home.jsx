@@ -2,21 +2,19 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
 
-import UserNavBar from "../components/Navbars/UserNavBar";
 import Footer from "../components/Footer/Footer";
-import Sidebar from "../components/Sidebar/Sidebar";
-import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
-
+import HomeNavBar from "../components/Navbars/HomeNavBar";
 import { style } from "variables/Variables.jsx";
 
-import routes from "routes.js";
+import routes from "../routes";
 
 import image from "assets/img/sidebar-3.jpg";
 
-class Admin extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      width: window.innerWidth,
       _notificationSystem: null,
       image: image,
       color: "black",
@@ -47,8 +45,7 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
+          Welcome to <b>Light Bootstrap Dashboard</b>
         </div>
       ),
       level: level,
@@ -58,7 +55,7 @@ class Admin extends Component {
   };
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/home") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -77,13 +74,13 @@ class Admin extends Component {
     });
   };
   getBrandText = path => {
-    for (let i = 0; i < routes.dashboardRoutes.length; i++) {
+    for (let i = 0; i < routes.homeRoutes.length; i++) {
       if (
         this.props.location.pathname.indexOf(
-          routes.dashboardRoutes[i].layout + routes.dashboardRoutes[i].path
+          routes.homeRoutes[i].layout + routes.homeRoutes[i].path
         ) !== -1
       ) {
-        return routes.dashboardRoutes[i].name;
+        return routes.homeRoutes[i].name;
       }
     }
     return "Brand";
@@ -129,8 +126,8 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
+          Welcome to <b>TrustiT.WORK</b> - a beautiful freebie for every web
+          developer.
         </div>
       ),
       level: level,
@@ -156,34 +153,15 @@ class Admin extends Component {
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />
-        <Sidebar
-          {...this.props}
-          routes={routes.adminRoutes}
-          image={this.state.image}
-          color={this.state.color}
-          hasImage={this.state.hasImage}
-        />
-        <div id="main-panel" className="main-panel" ref="mainPanel">
-          <UserNavBar
-            {...this.props}
-            brandText={this.getBrandText(this.props.location.pathname)}
-          />
-          <Switch>{this.getRoutes(routes.adminRoutes)}</Switch>
+
+        <div id="main-panel" ref="mainPanel">
+          <HomeNavBar {...this.props} />
+          <Switch>{this.getRoutes(routes.homeRoutes)}</Switch>
           <Footer />
-          <FixedPlugin
-            handleImageClick={this.handleImageClick}
-            handleColorClick={this.handleColorClick}
-            handleHasImage={this.handleHasImage}
-            bgColor={this.state["color"]}
-            bgImage={this.state["image"]}
-            mini={this.state["mini"]}
-            handleFixedClick={this.handleFixedClick}
-            fixedClasses={this.state.fixedClasses}
-          />
         </div>
       </div>
     );
   }
 }
 
-export default Admin;
+export default Home;

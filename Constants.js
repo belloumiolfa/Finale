@@ -1,6 +1,6 @@
 ENV = {
   tokenSecret: "lahledljealg",
-  HOST: "http://localhost:3001",
+  HOST: "http://localhost:3000",
   EMAIL_HOST: "smtp.mailtrap.io",
   EMAIL_PORT: "2525",
   EMAIL_USER: "1dcf03369de5ad",

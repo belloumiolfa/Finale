@@ -17,11 +17,7 @@ const UserSchema = new mongoose.Schema({
 
   firstName: { type: String },
   lastName: { type: String },
-  birthday: {
-    day: { type: String },
-    month: { type: String },
-    year: { type: String }
-  },
+  birthday: { type: Date },
   sex: { type: String },
 
   //information commun
@@ -63,8 +59,7 @@ const UserSchema = new mongoose.Schema({
   },
 
   confirmationToken: {
-    type: String,
-    default: false
+    type: String
   },
   confirmed: {
     type: Boolean,
@@ -155,7 +150,7 @@ UserSchema.statics.generateConfirmationToken = user => {
 
 /************************************* generateConfirmationUrl **************************************** */
 UserSchema.statics.generateConfirmationUrl = token => {
-  return `${ENV.HOST}/confirmation/${token}`;
+  return `${ENV.HOST}/home/confirmation/${token}`;
 };
 
 /************************************ exporting ******************************************************* */

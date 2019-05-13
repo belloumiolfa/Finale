@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
+/************************************************************************************************** */
 class Footer extends Component {
   render() {
     return (
@@ -9,25 +10,19 @@ class Footer extends Component {
           <nav className="pull-left">
             <ul>
               <li>
-                <a href="#pablo">Home</a>
+                <Link to="/home/welcom">Home</Link>
               </li>
               <li>
-                <a href="#pablo">Company</a>
+                <Link to="/home/blog">Blog</Link>
               </li>
               <li>
-                <a href="#pablo">Portfolio</a>
-              </li>
-              <li>
-                <a href="#pablo">Blog</a>
+                <Link to="/home/about-as">About as</Link>
               </li>
             </ul>
           </nav>
           <p className="copyright pull-right">
-            &copy; {new Date().getFullYear()}{" "}
-            <a href="http://www.creative-tim.com?ref=lbr-footer">
-              Creative Tim
-            </a>
-            , made with love for a better web
+            &copy; {new Date().getFullYear()} <a href="#">TrustiT.WORK</a>, made
+            with love for a better web
           </p>
         </Grid>
       </footer>

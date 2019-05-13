@@ -19,13 +19,10 @@ const sendConfirmationEmail = (userEmail, token) => {
 
   const tranport = SetUpMail();
   const email = {
-    from: "",
+    from: "trustit.work",
     to: userEmail,
     subject: "Welcome to TrustiT.WORK",
-    text: `
-    Welcome to TrustiT.WORK. Please, confirm your email.
-    ${url}
-    `
+    html: ` <a href="${url}">Welcome to TrustiT.WORK. Please, confirm your email. </a>`
   };
 
   tranport.sendMail(email);

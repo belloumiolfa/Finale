@@ -69,11 +69,7 @@ router.post("/signup", (req, res) => {
         password2: body.password2,
         firstName: body.firstName,
         lastName: body.lastName,
-        birthday: {
-          day: body.day,
-          month: body.month,
-          year: body.year
-        },
+        birthday: body.birthday,
         sex: body.sex,
         email: body.email,
         phone: body.phone,
@@ -90,7 +86,8 @@ router.post("/signup", (req, res) => {
         nameCompany: body.nameCompany,
         tax: body.tax,
         activity: body.activity,
-        category: body.category
+        category: body.category,
+        avatar
       });
 
       //crypt the password
@@ -99,7 +96,7 @@ router.post("/signup", (req, res) => {
           if (err) throw err;
           //get a crypted password
           newUser.password = hash;
-
+          newUser.password2 = hash;
           newUser
             .save()
             //return the user just sign up
@@ -112,7 +109,66 @@ router.post("/signup", (req, res) => {
     }
   });
 });
+/** ******************************************************************************************************** */
+// @route   GET getusers
+// @desc    retrun users
+// @access   rivate
+router.get(
+  "/getusers",
+  // passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.find()
+      .then(users => res.json({ users }))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+);
+/** ******************************************************************************************************** */
+// @route   post user
+// @desc    apdate accepted to true
+// @access  private
+router.post("/acceptuser", (req, res) => {
+  var id = req.body.id;
 
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send({ msg: "Id not valid" });
+  }
+  User.findOneAndUpdate(
+    { _id: id },
+    { $set: { accepted: true } },
+    { new: true }
+  )
+    .then(user => {
+      const token = User.generateConfirmationToken(user);
+      user.confirmationToken = token;
+      user.save().then(user => res.json({ user: user }));
+    })
+    .catch(e => {
+      res.status(400).send({ msg: "Not found" });
+    });
+});
+/** ****************************************************************************************************** */
+// @route   DELETE user
+// @desc    delete user
+// @access  private
+router.delete("/deleteuser", (req, res) => {
+  var id = req.body.id;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send("Id not valid");
+  }
+
+  User.findOneAndRemove({
+    _id: id
+  })
+    .then(user => {
+      res.send({ msg: "deleted" });
+    })
+    .catch(e => {
+      res.status(400).send({ msg: "Not found" });
+    });
+});
 /** ******************************************************************************************************** */
 // @route   POST  user/nodemailer
 // @desc    retrun user
@@ -123,7 +179,6 @@ router.post("/nodemailer", (req, res) => {
     user => {
       //send confirmation email to New User
       const confirmationToken = User.generateConfirmationToken(user);
-      console.log(user.email);
 
       // wait for admin's check if check =true send email
       sendConfirmationEmail(user.email, confirmationToken);
@@ -133,6 +188,26 @@ router.post("/nodemailer", (req, res) => {
       res.status(404).send("User not found");
     }
   );
+});
+/** ******************************************************************************************************** */
+// @route   post user
+// @desc    apdate accepted to true
+// @access  private
+router.post("/confirm", (req, res) => {
+  var token = req.body.token;
+
+  User.findOneAndUpdate(
+    { confirmationToken: token },
+    { $set: { confirmed: true } },
+    { new: true }
+  )
+    .then(user => {
+      user.confirmationToken = "";
+      user.save().then(user => res.json({ user: user }));
+    })
+    .catch(e => {
+      res.status(400).send({ msg: "Not found" });
+    });
 });
 /** ******************************************************************************************************** */
 

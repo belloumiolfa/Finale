@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
-import AdminNavbarLinks from "../Navbars/AdminNavbarLinks.jsx";
+import UserNavBarLinks from "../Navbars/UserNavBarLinks";
 
 import logo from "assets/img/reactlogo.png";
 
@@ -33,11 +33,9 @@ class Sidebar extends Component {
         data-color={this.props.color}
         data-image={this.props.image}
       >
-          {this.props.hasImage ? (
-            <div className="sidebar-background" style={sidebarBackground} />
-          ) : (
-            null
-          )}
+        {this.props.hasImage ? (
+          <div className="sidebar-background" style={sidebarBackground} />
+        ) : null}
         <div className="logo">
           <a
             href="https://www.creative-tim.com?ref=lbd-sidebar"
@@ -51,12 +49,12 @@ class Sidebar extends Component {
             href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-normal"
           >
-            Creative Tim
+            userName
           </a>
         </div>
         <div className="sidebar-wrapper">
           <ul className="nav">
-            {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
+            {this.state.width <= 991 ? <UserNavBarLinks /> : null}
             {this.props.routes.map((prop, key) => {
               if (!prop.redirect)
                 return (

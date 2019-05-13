@@ -13,7 +13,7 @@ import routes from "routes.js";
 
 import image from "assets/img/sidebar-3.jpg";
 
-class Admin extends Component {
+class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +58,7 @@ class Admin extends Component {
   };
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/user") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -158,7 +158,7 @@ class Admin extends Component {
         <NotificationSystem ref="notificationSystem" style={style} />
         <Sidebar
           {...this.props}
-          routes={routes.adminRoutes}
+          routes={routes.dashboardRoutes}
           image={this.state.image}
           color={this.state.color}
           hasImage={this.state.hasImage}
@@ -168,7 +168,7 @@ class Admin extends Component {
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
-          <Switch>{this.getRoutes(routes.adminRoutes)}</Switch>
+          <Switch>{this.getRoutes(routes.dashboardRoutes)}</Switch>
           <Footer />
           <FixedPlugin
             handleImageClick={this.handleImageClick}
@@ -186,4 +186,4 @@ class Admin extends Component {
   }
 }
 
-export default Admin;
+export default User;

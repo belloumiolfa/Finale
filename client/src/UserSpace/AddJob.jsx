@@ -5,7 +5,7 @@ import Card from "components/Card/Card";
 
 import Button from "components/CustomButton/CustomButton";
 
-class Icons extends Component {
+class AddJob extends Component {
   render() {
     return (
       <div className="content">
@@ -104,4 +104,4 @@ class Icons extends Component {
   }
 }
 
-export default Icons;
+export default AddJob;

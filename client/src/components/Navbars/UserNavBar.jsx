@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Navbar } from "react-bootstrap";
 
-import AdminNavbarLinks from "./AdminNavbarLinks.jsx";
+import UserNavBarLinks from "./UserNavBarLinks.jsx";
 
-class Header extends Component {
+class UserNavBar extends Component {
   constructor(props) {
     super(props);
     this.mobileSidebarToggle = this.mobileSidebarToggle.bind(this);
@@ -11,6 +11,7 @@ class Header extends Component {
       sidebarExists: false
     };
   }
+
   mobileSidebarToggle(e) {
     if (this.state.sidebarExists === false) {
       this.setState({
@@ -27,21 +28,22 @@ class Header extends Component {
     };
     document.body.appendChild(node);
   }
+
   render() {
     return (
       <Navbar fluid>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#pablo">{this.props.brandText}</a>
+            <a href="#">{this.props.brandText}</a>
           </Navbar.Brand>
           <Navbar.Toggle onClick={this.mobileSidebarToggle} />
         </Navbar.Header>
         <Navbar.Collapse>
-          <AdminNavbarLinks />
+          <UserNavBarLinks />
         </Navbar.Collapse>
       </Navbar>
     );
   }
 }
 
-export default Header;
+export default UserNavBar;
