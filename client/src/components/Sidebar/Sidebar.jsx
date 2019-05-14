@@ -56,7 +56,7 @@ class Sidebar extends Component {
           <ul className="nav">
             {this.state.width <= 991 ? <UserNavBarLinks /> : null}
             {this.props.routes.map((prop, key) => {
-              if (!prop.redirect)
+              if (prop.visible)
                 return (
                   <li
                     className={

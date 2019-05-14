@@ -11,7 +11,7 @@ const ENV = require("../Constants");
 // Create Schema
 const UserSchema = new mongoose.Schema({
   //user informations
-  userName: { type: String, unique: true, required: true },
+  userName: { type: String, required: true },
   password: { type: String, required: true },
   password2: { type: String, required: true },
 
@@ -36,7 +36,7 @@ const UserSchema = new mongoose.Schema({
   fax: { type: String },
   adress: {
     city: { type: String },
-    state: { type: String },
+    country: { type: String },
     zip: { type: String }
   },
   webSite: { type: String },

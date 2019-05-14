@@ -4,14 +4,17 @@ const APT_url = "http://localhost:3001";
 const UserServices = {
   SignUp,
   SignIn,
+  updateUser,
   getUser,
+  getCurrentUser,
   getUsers,
   getNewUsers,
   acceptUser,
   deleteUser,
   confirm,
   getUserByCategory,
-  sendConfirmation
+  sendConfirmation,
+  signOut
 };
 
 /******************************************************************* */
@@ -26,7 +29,7 @@ function SignUp(user) {
 }
 /******************************************************************* */
 function SignIn(credentials) {
-  const t = axios({
+  return axios({
     method: "post",
     url: "http://localhost:3001/user/signin",
     data: {
@@ -34,14 +37,27 @@ function SignIn(credentials) {
       password: credentials.password
     }
   });
-  console.log("axios", t);
-  return t;
 }
 /***************************************************************** */
 function getUsers() {
   return axios({
     method: "get",
     url: `${APT_url}/user/getusers`
+  });
+}
+/***************************************************************** */
+function updateUser(user) {
+  return axios({
+    method: "post",
+    url: `${APT_url}/user/update`,
+    data: user
+  });
+}
+/***************************************************************** */
+function getCurrentUser() {
+  return axios({
+    method: "get",
+    url: `${APT_url}/user/getuser`
   });
 }
 /***************************************************************** */
@@ -104,5 +120,14 @@ function sendConfirmation(id) {
     data: { id }
   });
 }
+/***************************************************************** */
+
+function signOut() {
+  return axios({
+    method: "get",
+    url: `${APT_url}/user/signout`
+  });
+}
+
 /*************************************** exporting ************************************************** */
 export default UserServices;

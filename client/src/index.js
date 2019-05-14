@@ -19,7 +19,7 @@ import UserTypes from "./Redux/Types/UserTypes";
 
 //import actions
 import { SignOutAction } from "Redux/Actions/AuthAction";
-
+import { clearCurrentProfile } from "./Redux/Actions/ProfileAction";
 //import layouts
 import UserLayaout from "layouts/User";
 import Home from "layouts/Home";
@@ -27,6 +27,7 @@ import Admin from "layouts/Admin";
 
 //import services
 import SetAuthToken from "./Services/SetAuthToken";
+import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 /**************************************************************************** */
 // Check for token
 if (localStorage.jwtToken) {
@@ -43,6 +44,8 @@ if (localStorage.jwtToken) {
   // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
+    //clear profile
+    Store.dispatch(clearCurrentProfile());
     // Logout user
     Store.dispatch(SignOutAction());
     // TODO: Clear current Profile
@@ -56,10 +59,13 @@ ReactDOM.render(
   <Provider store={Store}>
     <BrowserRouter>
       <Switch>
-        <Route path="/user" render={props => <UserLayaout {...props} />} />
-        <Route path="/home" render={props => <Home {...props} />} />
+        <PrivateRoute
+          path="/user"
+          render={props => <UserLayaout {...props} />}
+        />
+        <PrivateRoute path="/admin" render={props => <Admin {...props} />} />
 
-        <Route path="/admin" render={props => <Admin {...props} />} />
+        <Route path="/home" render={props => <Home {...props} />} />
 
         <Redirect from="/" to="/home/welcom" />
       </Switch>

@@ -47,15 +47,12 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
-    console.log("id user", req.user._id);
 
     Profile.findOne({ user: req.user._id })
       .populate("user", ["userName", "email"])
       .then(profile => {
-        console.log("get profile", profile);
-
         if (!profile) {
-          errors.noprofile = "There is no profile for this user";
+          errors.noprofile = "There is no profile for you";
           return res.status(404).json(errors);
         }
         res.json(profile);
@@ -71,9 +68,34 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    var profileFields = req.body;
+    // Get fields
+    const profileFields = {};
     profileFields.user = req.user._id;
-    console.log("add profile", profileFields);
+
+    profileFields.handle = req.user.userName;
+    if (req.body.company) profileFields.company = req.body.company;
+    if (req.body.website) profileFields.website = req.body.website;
+    if (req.body.location) profileFields.location = req.body.location;
+    if (req.body.email) profileFields.email = req.body.email;
+
+    if (req.body.bio) profileFields.bio = req.body.bio;
+
+    if (req.body.status) profileFields.status = req.body.status;
+    else profileFields.status = req.user.category;
+
+    if (req.body.githubusername)
+      profileFields.githubusername = req.body.githubusername;
+    // Skills - Spilt into array
+    /* if (typeof req.body.skills !== "undefined") {
+      profileFields.skills = req.body.skills.split(",");
+    }*/
+
+    // Social
+    profileFields.social = {};
+    if (req.body.google) profileFields.social.google = req.body.google;
+    if (req.body.twitter) profileFields.social.twitter = req.body.twitter;
+    if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
+    if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
 
     const { errors, isValid } = validateProfileInput(profileFields);
 
@@ -82,31 +104,7 @@ router.post(
       // Return any errors with 400 status
       return res.status(400).json(errors);
     }
-    /*
-    // Get fields
-    const profileFields = {};
-    
-    if (req.body.handle) profileFields.handle = req.body.handle;
-    if (req.body.company) profileFields.company = req.body.company;
-    if (req.body.website) profileFields.website = req.body.website;
-    if (req.body.location) profileFields.location = req.body.location;
-    if (req.body.bio) profileFields.bio = req.body.bio;
-    if (req.body.status) profileFields.status = req.body.status;
-    if (req.body.githubusername)
-      profileFields.githubusername = req.body.githubusername;
-    // Skills - Spilt into array
-    if (typeof req.body.skills !== 'undefined') {
-      profileFields.skills = req.body.skills.split(',');
-    }
 
-    // Social
-    profileFields.social = {};
-    if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
-    if (req.body.twitter) profileFields.social.twitter = req.body.twitter;
-    if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
-    if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
-    if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
-*/
     Profile.findOne({ user: req.user._id }).then(profile => {
       if (profile) {
         // Update
@@ -215,7 +213,6 @@ router.post(
       return res.status(400).json(errors);
     }
     const newExp = req.body;
-    console.log(newExp);
 
     Profile.findOne({ user: req.user._id }).then(profile => {
       /* const newExp = {
@@ -233,7 +230,9 @@ router.post(
 
       profile
         .save()
-        .then(profile => res.json(profile))
+        .then(profile => {
+          res.json(profile);
+        })
         .catch(err => res.status(404).json({ date: "Invalide date" }));
     });
   }

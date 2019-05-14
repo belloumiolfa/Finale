@@ -272,13 +272,13 @@ class SignUpForm extends Component {
                           placeholder: "Name Company "
                         },
                         {
-                          label: "Domaine",
-                          name: "domaine",
-                          value: user.domaine,
+                          label: "Tax",
+                          name: "tax",
+                          value: user.tax,
                           onChange: this.handleChange,
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Domaine"
+                          placeholder: "Tax"
                         },
                         {
                           label: "Activity",

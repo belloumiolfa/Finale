@@ -80,6 +80,7 @@ export const SignInAction = userData => dispatch => {
       SetAuthToken(token);
       // Decode token to get user data
       const decoded = jwt_decode(token);
+
       // Set current user
       dispatch({
         type: UserTypes.SIGN_IN,
@@ -90,14 +91,19 @@ export const SignInAction = userData => dispatch => {
 };
 /********************************************************************************************** */
 // Sign user out
-export const SignOutAction = () => dispatch => {
-  // Remove token from localStorage
-  localStorage.removeItem("jwtToken");
-  // Remove auth header for future requests
-  SetAuthToken(false);
-  // Set current user to {} which will set isAuthenticated to false
-  dispatch({
-    type: UserTypes.SIGN_IN,
-    payload: {}
+export const SignOutAction = history => dispatch => {
+  UserServices.signOut().then(res => {
+    console.log(res);
+
+    // Remove token from localStorage
+    localStorage.removeItem("jwtToken");
+    // Remove auth header for future requests
+    SetAuthToken(false);
+    // Set current user to {} which will set isAuthenticated to false
+    dispatch({
+      type: UserTypes.SIGN_IN,
+      payload: {}
+    });
+    history.push("/home/sign-in");
   });
 };

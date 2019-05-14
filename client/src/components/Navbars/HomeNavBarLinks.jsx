@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { NavItem, Nav } from "react-bootstrap";
 //import routing dependencis
-import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 //import redux dependencis
@@ -9,26 +8,34 @@ import { connect } from "react-redux";
 
 //import actions
 import { SignOutAction } from "../../Redux/Actions/AuthAction";
+import { clearCurrentProfile } from "../../Redux/Actions/ProfileAction";
+
 /************************************************************************************** */
 class HomeNavBarLinks extends Component {
   onSignOut = e => {
     e.preventDefault();
-    this.props.SignOutAction();
-    this.props.history.push("/home/sign-in");
+    this.props.clearCurrentProfile();
+    this.props.SignOutAction(this.props.history);
   };
   /************************************************************************************** */
   handleSignIn = e => {
     e.preventDefault();
     this.props.history.push("/home/sign-in");
   };
+  /************************************************************************************** */
+
   handleSignUP = e => {
     e.preventDefault();
     this.props.history.push("/home/sign-up");
   };
+  /************************************************************************************** */
+
   handleGetAccount = e => {
     e.preventDefault();
     this.props.history.push("/user/account");
   };
+  /************************************************************************************** */
+
   render() {
     const { isAuthenticated } = this.props.Auth;
 
@@ -69,5 +76,5 @@ const mapStateToProps = state => ({
 //map actions and state
 export default connect(
   mapStateToProps,
-  { SignOutAction }
+  { SignOutAction, clearCurrentProfile }
 )(withRouter(HomeNavBarLinks));

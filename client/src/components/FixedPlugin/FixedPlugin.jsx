@@ -6,6 +6,18 @@ import imagine1 from "assets/img/sidebar-1.jpg";
 import imagine2 from "assets/img/sidebar-2.jpg";
 import imagine3 from "assets/img/sidebar-3.jpg";
 import imagine4 from "assets/img/sidebar-4.jpg";
+//import routing dependencis
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+
+//import redux dependencis
+import { connect } from "react-redux";
+
+//import actions
+import {
+  createProfileAction,
+  deleteAccount
+} from "../../Redux/Actions/ProfileAction";
 
 class FixedPlugin extends Component {
   constructor(props) {
@@ -16,13 +28,39 @@ class FixedPlugin extends Component {
       bgImage: this.props.bgImage
     };
   }
+  /******************************************************************************************** */
+
   handleClick = () => {
     this.props.handleFixedClick();
   };
+  /******************************************************************************************** */
+
   onChangeClick = () => {
     this.props.handleHasImage(!this.state.bg_checked);
     this.setState({ bg_checked: !this.state.bg_checked });
   };
+  /******************************************************************************************** */
+
+  handleCreate = () => {
+    //create profile with
+    this.props.createProfileAction({});
+    //dispatch profile
+    this.props.history.push("/user/profile");
+  };
+  /******************************************************************************************** */
+
+  handleDelete = () => {
+    this.props.deleteAccount();
+  };
+  /******************************************************************************************** */
+  handleView = () => {
+    this.props.history.push(
+      `/user/account/${this.props.Profile.profile._id}/${
+        this.props.Profile.profile.user.category
+      }`
+    );
+  };
+  /******************************************************************************************** */
   render() {
     return (
       <div className="fixed-plugin">
@@ -163,35 +201,28 @@ class FixedPlugin extends Component {
             </li>
 
             <li className="button-container">
-              <div className="">
-                <a
-                  href="https://www.creative-tim.com/product/light-bootstrap-dashboard-react?ref=lbdr-fixed-plugin"
-                  target="_blank"
-                  className="btn btn-success btn-block btn-fill"
-                >
-                  Download free!
-                </a>
-              </div>
-            </li>
-            <li className="button-container">
-              <div className="">
-                <a
-                  href="https://www.creative-tim.com/product/light-bootstrap-dashboard-pro-react?ref=lbdr-fixed-plugin"
-                  target="_blank"
-                  className="btn btn-warning btn-block btn-fill"
-                >
-                  Buy Pro
-                </a>
-              </div>
-            </li>
-            <li className="button-container">
-              <a
-                href="https://demos.creative-tim.com/light-bootstrap-dashboard-react/#/documentation/getting-started?ref=lbdr-fixed-plugin"
-                target="_blank"
-                className="btn btn-fill btn-info"
+              <div
+                className="btn btn-success btn-block btn-fill"
+                onClick={this.handleCreate}
               >
-                Documentation
-              </a>
+                Create Profile
+              </div>
+            </li>
+            <li className="button-container">
+              <div
+                className="btn btn-warning btn-block btn-fill"
+                onClick={this.handleView}
+              >
+                Your Account
+              </div>
+            </li>
+            <li className="button-container">
+              <div
+                className="btn btn-fill  btn-block btn-info"
+                onClick={this.handleDelete}
+              >
+                Delete Account
+              </div>
             </li>
           </ul>
         </div>
@@ -200,4 +231,16 @@ class FixedPlugin extends Component {
   }
 }
 
-export default FixedPlugin;
+//map store's state to component's props
+//authentification comes from root reducer the attribut that content AuthReducer
+const mapStateToProps = state => ({
+  Auth: state.Authentification,
+  Alert: state.Alert,
+  Profile: state.Profile
+});
+
+//map actions and state
+export default connect(
+  mapStateToProps,
+  { createProfileAction, deleteAccount }
+)(withRouter(FixedPlugin));

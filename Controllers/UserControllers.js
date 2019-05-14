@@ -76,7 +76,7 @@ router.post("/signup", (req, res) => {
         fax: body.fax,
         adress: {
           city: body.city,
-          state: body.state,
+          country: body.state,
           zip: body.zip
         },
         cin: body.cin,
@@ -126,7 +126,7 @@ router.get(
 );
 /** ******************************************************************************************************** */
 // @route   post user
-// @desc    apdate accepted to true
+// @desc    update accepted to true
 // @access  private
 router.post("/acceptuser", (req, res) => {
   var id = req.body.id;
@@ -191,7 +191,7 @@ router.post("/nodemailer", (req, res) => {
 });
 /** ******************************************************************************************************** */
 // @route   post user
-// @desc    apdate accepted to true
+// @desc    update confirm to true
 // @access  private
 router.post("/confirm", (req, res) => {
   var token = req.body.token;
@@ -258,11 +258,71 @@ router.get(
   (req, res) => {
     User.findOne({ _id: req.user._id }).then(user => {
       user.token = "";
-      console.log(user);
 
       user.save().then(user => res.json({ msg: "SignOut" }));
     });
   }
 );
+
+/** ******************************************************************************************************** */
+// @route   POST user/signup
+// @desc    Signup user
+// @access  Public
+router.post(
+  "/update",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findById({ _id: req.user._id }).then(res => {
+      //create new user
+      const body = req.body;
+      console.log("rrrrrrr", req.user._id);
+
+      var newUser = new User({
+        userName: body.userName,
+        firstName: body.firstName,
+        lastName: body.lastName,
+        birthday: body.birthday,
+        sex: body.sex,
+        email: body.email,
+        phone: body.phone,
+        fax: body.fax,
+        adress: {
+          city: body.city,
+          country: body.state,
+          zip: body.zip
+        },
+        cin: body.cin,
+        webSite: body.webSite,
+        nameAssociation: body.nameAssociation,
+        domaine: body.domaine,
+        nameCompany: body.nameCompany,
+        tax: body.tax,
+        activity: body.activity,
+        category: body.category
+      });
+      newUser.password = res.password;
+      newUser.password2 = res.password2;
+      newUser.avatar = res.avatar;
+
+      const { errors, isValid } = validateRegisterInput(newUser);
+      console.log(newUser);
+
+      // Check Validation
+      if (!isValid) {
+        return res.status(400).json(errors);
+      }
+      newUser
+        .save()
+        //return the user just updated
+        .then(user => {
+          console.log(user);
+
+          res.json({ user: user });
+        })
+        .catch(err => console.log(err));
+    });
+  }
+);
+
 /***************************************** exporting ***************************************************** */
 module.exports = router;

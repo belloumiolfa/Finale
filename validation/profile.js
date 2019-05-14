@@ -26,33 +26,27 @@ module.exports = function validateProfileInput(data) {
     }
   }
 
-  if (!isEmpty(data.youtube)) {
-    if (!Validator.isURL(data.youtube)) {
-      errors.youtube = "Not a valid URL";
+  if (!isEmpty(data.social.google)) {
+    if (!Validator.isURL(data.social.google)) {
+      errors.google = "Not a valid URL";
     }
   }
 
-  if (!isEmpty(data.twitter)) {
-    if (!Validator.isURL(data.twitter)) {
+  if (!isEmpty(data.social.twitter)) {
+    if (!Validator.isURL(data.social.twitter)) {
       errors.twitter = "Not a valid URL";
     }
   }
 
-  if (!isEmpty(data.facebook)) {
-    if (!Validator.isURL(data.facebook)) {
+  if (!isEmpty(data.social.facebook)) {
+    if (!Validator.isURL(data.social.facebook)) {
       errors.facebook = "Not a valid URL";
     }
   }
 
-  if (!isEmpty(data.linkedin)) {
-    if (!Validator.isURL(data.linkedin)) {
+  if (!isEmpty(data.social.linkedin)) {
+    if (!Validator.isURL(data.social.linkedin)) {
       errors.linkedin = "Not a valid URL";
-    }
-  }
-
-  if (!isEmpty(data.instagram)) {
-    if (!Validator.isURL(data.instagram)) {
-      errors.instagram = "Not a valid URL";
     }
   }
 

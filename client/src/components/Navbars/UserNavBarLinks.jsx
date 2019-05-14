@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
 
 //import routing dependencis
-import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 //import redux dependencis
@@ -10,19 +9,23 @@ import { connect } from "react-redux";
 
 //import actions
 import { SignOutAction } from "../../Redux/Actions/AuthAction";
-
+import { clearCurrentProfile } from "../../Redux/Actions/ProfileAction";
 /************************************************************************************** */
 
 class UserNavBarLinks extends Component {
   onSignOut = e => {
     e.preventDefault();
-    this.props.SignOutAction();
-    this.props.history.push("/home/sign-in");
+    this.props.clearCurrentProfile();
+    this.props.SignOutAction(this.props.history);
   };
+  /************************************************************************************** */
+
   handleGetAccount = e => {
     e.preventDefault();
     this.props.history.push("/user/account");
   };
+  /************************************************************************************** */
+
   render() {
     const notification = (
       <div>
@@ -80,5 +83,5 @@ const mapStateToProps = state => ({
 //map actions and state
 export default connect(
   mapStateToProps,
-  { SignOutAction }
+  { SignOutAction, clearCurrentProfile }
 )(withRouter(UserNavBarLinks));

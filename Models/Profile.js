@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const validator = require("validator");
 
 // Create Schema
 const ProfileSchema = new Schema({
@@ -11,6 +12,15 @@ const ProfileSchema = new Schema({
     type: String,
     required: true,
     max: 40
+  },
+  //information commun
+  email: {
+    type: String,
+    trim: true,
+    validate: {
+      validator: validator.isEmail,
+      message: "{VALUE} is not a valid email"
+    }
   },
   company: {
     type: String
@@ -94,9 +104,10 @@ const ProfileSchema = new Schema({
     }
   ],
   social: {
-    youtube: {
+    google: {
       type: String
     },
+
     twitter: {
       type: String
     },
@@ -104,9 +115,6 @@ const ProfileSchema = new Schema({
       type: String
     },
     linkedin: {
-      type: String
-    },
-    instagram: {
       type: String
     }
   },
