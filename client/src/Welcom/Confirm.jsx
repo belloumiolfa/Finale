@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid } from "react-bootstrap";
 
 //import routing dependencis
 import { Link } from "react-router-dom";
@@ -17,7 +17,10 @@ class Confirm extends Component {
       _notificationSystem: null
     };
   }
-  handleNotificationClick = position => {
+
+  componentDidMount() {
+    this.setState({ _notificationSystem: this.refs.notificationSystem });
+    var _notificationSystem = this.refs.notificationSystem;
     var color = Math.floor(Math.random() * 4 + 1);
     var level;
     switch (color) {
@@ -36,21 +39,18 @@ class Confirm extends Component {
       default:
         break;
     }
-    this.state._notificationSystem.addNotification({
+    _notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
+          Welcome to <b>TrustiT.WORK</b> - Thank you for confirmate your email.
         </div>
       ),
       level: level,
-      position: position,
+      position: "tr",
       autoDismiss: 15
     });
-  };
 
-  componentDidMount() {
     this.props.ConfirmAction(this.props.match.params.token);
   }
 

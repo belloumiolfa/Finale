@@ -1,8 +1,19 @@
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
+
+//import routing dependencis
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+
+//import redux dependencis
+import { connect } from "react-redux";
 /**************************************************************************************************** */
-export default class SignUp extends Component {
+class SignUp extends Component {
+  componentDidMount() {
+    if (this.props.Auth.isAuthenticated) {
+      this.props.history.push("/user/profile");
+    }
+  }
   render() {
     return (
       <div className="container wrapper">
@@ -65,3 +76,15 @@ export default class SignUp extends Component {
     );
   }
 }
+//map store's state to component's props
+//authentification comes from root reducer the attribut that content AuthReducer
+const mapStateToProps = state => ({
+  Auth: state.Authentification,
+  Alert: state.Alert
+});
+
+//map actions and state
+export default connect(
+  mapStateToProps,
+  {}
+)(withRouter(SignUp));

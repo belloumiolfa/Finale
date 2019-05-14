@@ -1,15 +1,27 @@
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
+
+//import routing dependencis
 import { Link } from "react-router-dom";
-import { Card } from "../components/Card/Card";
+import { withRouter } from "react-router-dom";
+
+//import redux dependencis
+import { connect } from "react-redux";
+
+//import actions
+import { SignInAction } from "../Redux/Actions/AuthAction";
+
+//import components
 import { FormInputs } from "../components/FormInputs/FormInputs";
 import Button from "../components/CustomButton/CustomButton";
-export default class SignIn extends Component {
+/******************************************************************************************************** */
+class SignIn extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      user: {}
+      user: {},
+      errors: {}
     };
   }
   /*************************************** handleChange ************************************************* */
@@ -24,11 +36,27 @@ export default class SignIn extends Component {
 
     //new user
     var newUser = this.state.user;
-    console.log(newUser);
+    this.props.SignInAction(newUser);
   };
+  /************************************* componentWillReceiveProps ************************************* */
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.Alert) {
+      this.setState({ errors: nextProps.Alert });
+    }
+    if (nextProps.Auth.isAuthenticated) {
+      this.props.history.push("/user/profile");
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.Auth.isAuthenticated) {
+      this.props.history.push("/user/profile");
+    }
+  }
+  /***************************************************************************************************** */
   render() {
-    const { user } = this.state;
+    const { user, errors } = this.state;
 
     return (
       <div className="container">
@@ -47,7 +75,7 @@ export default class SignIn extends Component {
           </small>
           <Row className="container">
             <Col md={3} />
-            <Col md={6} m-auto>
+            <Col md={6} m-auto="true">
               <form onSubmit={this.handleSubmit}>
                 <FormInputs
                   ncols={["col-md-12"]}
@@ -63,6 +91,9 @@ export default class SignIn extends Component {
                     }
                   ]}
                 />
+                {errors.email && (
+                  <div style={{ color: "red" }}>{errors.email}</div>
+                )}
                 <FormInputs
                   ncols={["col-md-12"]}
                   properties={[
@@ -77,6 +108,9 @@ export default class SignIn extends Component {
                     }
                   ]}
                 />
+                {errors.password && (
+                  <div style={{ color: "red" }}>{errors.password}</div>
+                )}
                 <span>
                   <Link to="/forgetpassword">Forget Password?</Link>
                 </span>
@@ -100,3 +134,15 @@ export default class SignIn extends Component {
     );
   }
 }
+//map store's state to component's props
+//authentification comes from root reducer the attribut that content AuthReducer
+const mapStateToProps = state => ({
+  Auth: state.Authentification,
+  Alert: state.Alert
+});
+
+//map actions and state
+export default connect(
+  mapStateToProps,
+  { SignInAction }
+)(withRouter(SignIn));

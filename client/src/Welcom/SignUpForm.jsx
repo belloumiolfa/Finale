@@ -24,7 +24,11 @@ class SignUpForm extends Component {
       errors: {}
     };
   }
-
+  componentDidMount() {
+    if (this.props.Auth.isAuthenticated) {
+      this.props.history.push("/user/profile");
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.Alert) {
       this.setState({ errors: nextProps.Alert });

@@ -76,7 +76,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.statics.findByCredentials = (email, password) => {
   return User.findOne({ email }).then(user => {
     if (!user) {
-      return Promise.reject({ msg: "User not found" });
+      return Promise.reject({ email: "User not found" });
     }
 
     return new Promise((resolve, reject) => {
@@ -84,9 +84,9 @@ UserSchema.statics.findByCredentials = (email, password) => {
       bcrypt.compare(password, user.password).then(res => {
         if (res) {
           // User Matched
-          resolve({ user: user, msg: "Welcom to our platform" });
+          resolve({ user: user });
         } else {
-          reject({ msg: "Password Incorrect" });
+          reject({ password: "Password Incorrect" });
         }
       });
     });

@@ -126,8 +126,7 @@ class Home extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>TrustiT.WORK</b> - a beautiful freebie for every web
-          developer.
+          Welcome to <b>TrustiT.WORK</b> -
         </div>
       ),
       level: level,

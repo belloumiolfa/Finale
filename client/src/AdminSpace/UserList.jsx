@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 //import actions
 import { RefuseUser, AcceptAction } from "../Redux/Actions/AuthAction";
 import Card from "components/Card/Card.jsx";
-import { thArray, tdArray } from "variables/Variables.jsx";
 import UserServices from "Services/UserServices";
 import Button from "../components/CustomButton/CustomButton";
 /***************************************************************************************************** */
@@ -66,7 +65,7 @@ class UserList extends Component {
   /**************************************************************************************************** */
 
   render() {
-    const { users, confirmed, accepted } = this.state;
+    const { users } = this.state;
     return (
       <div className="content">
         <Grid fluid>

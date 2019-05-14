@@ -87,7 +87,7 @@ router.post("/signup", (req, res) => {
         tax: body.tax,
         activity: body.activity,
         category: body.category,
-        avatar
+        avatar: avatar
       });
 
       //crypt the password
@@ -198,12 +198,11 @@ router.post("/confirm", (req, res) => {
 
   User.findOneAndUpdate(
     { confirmationToken: token },
-    { $set: { confirmed: true } },
+    { $set: { confirmed: true, confirmationToken: "" } },
     { new: true }
   )
     .then(user => {
-      user.confirmationToken = "";
-      user.save().then(user => res.json({ user: user }));
+      res.json({ user: user });
     })
     .catch(e => {
       res.status(400).send({ msg: "Not found" });
@@ -225,11 +224,10 @@ router.post("/signin", (req, res) => {
   User.findByCredentials(req.body.email, req.body.password).then(
     result => {
       let user = result.user;
-      let msg = result.msg;
 
       // Sign Token
       return user.generateAuthToken(user).then(token => {
-        res.header("Auth", token).send({ user, msg });
+        res.header("Auth", token).send({ user });
       });
     },
     err => {

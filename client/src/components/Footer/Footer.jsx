@@ -21,8 +21,8 @@ class Footer extends Component {
             </ul>
           </nav>
           <p className="copyright pull-right">
-            &copy; {new Date().getFullYear()} <a href="#">TrustiT.WORK</a>, made
-            with love for a better web
+            &copy; {new Date().getFullYear()} <Link to="/">TrustiT.WORK</Link>,
+            made with love for a better career.
           </p>
         </Grid>
       </footer>

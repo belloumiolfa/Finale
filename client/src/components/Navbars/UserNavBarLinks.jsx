@@ -1,7 +1,28 @@
 import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
 
+//import routing dependencis
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+
+//import redux dependencis
+import { connect } from "react-redux";
+
+//import actions
+import { SignOutAction } from "../../Redux/Actions/AuthAction";
+
+/************************************************************************************** */
+
 class UserNavBarLinks extends Component {
+  onSignOut = e => {
+    e.preventDefault();
+    this.props.SignOutAction();
+    this.props.history.push("/home/sign-in");
+  };
+  handleGetAccount = e => {
+    e.preventDefault();
+    this.props.history.push("/user/account");
+  };
   render() {
     const notification = (
       <div>
@@ -14,7 +35,7 @@ class UserNavBarLinks extends Component {
     return (
       <div>
         <Nav>
-          <NavItem eventKey={1} href="#">
+          <NavItem eventKey={1}>
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
           </NavItem>
@@ -30,17 +51,17 @@ class UserNavBarLinks extends Component {
             <MenuItem eventKey={2.4}>Notification 4</MenuItem>
             <MenuItem eventKey={2.5}>Another notifications</MenuItem>
           </NavDropdown>
-          <NavItem eventKey={3} href="#">
+          <NavItem eventKey={3}>
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>
           </NavItem>
         </Nav>
         <Nav pullRight>
-          <NavItem eventKey={1} href="#fff">
+          <NavItem eventKey={3} onClick={this.handleGetAccount}>
             Account
           </NavItem>
 
-          <NavItem eventKey={3} href="#">
+          <NavItem eventKey={3} onClick={this.onSignOut}>
             Sign out
           </NavItem>
         </Nav>
@@ -49,4 +70,15 @@ class UserNavBarLinks extends Component {
   }
 }
 
-export default UserNavBarLinks;
+//map store's state to component's props
+//authentification comes from root reducer the attribut that content AuthReducer
+const mapStateToProps = state => ({
+  Auth: state.Authentification,
+  Alert: state.Alert
+});
+
+//map actions and state
+export default connect(
+  mapStateToProps,
+  { SignOutAction }
+)(withRouter(UserNavBarLinks));
