@@ -49,12 +49,32 @@ router.get(
     const errors = {};
 
     Profile.findOne({ user: req.user._id })
-      .populate("user", ["userName", "email"])
+      .populate("user", [
+        "userName",
+        "avatar",
+        "firstName",
+        "lastName",
+        "birthday",
+        "sex",
+        "phone",
+        "fax",
+        "adress",
+        "webSite",
+        "nameAssociation",
+        "domaine",
+        "nameCompany",
+        "tax",
+        "activity",
+        "cin",
+        "category",
+        "email"
+      ])
       .then(profile => {
         if (!profile) {
           errors.noprofile = "There is no profile for you";
           return res.status(404).json(errors);
         }
+
         res.json(profile);
       })
       .catch(err => res.status(404).json(err));
@@ -137,11 +157,30 @@ router.post(
 // @desc    Get profile by handle
 // @access  Public
 
-router.get("/handle/:handle", (req, res) => {
+router.get("/:id", (req, res) => {
   const errors = {};
 
-  Profile.findOne({ handle: req.params.handle })
-    .populate("user", ["userName", "avatar"])
+  Profile.findOne({ _id: req.params.id })
+    .populate("user", [
+      "userName",
+      "avatar",
+      "firstName",
+      "lastName",
+      "birthday",
+      "sex",
+      "phone",
+      "fax",
+      "adress",
+      "webSite",
+      "nameAssociation",
+      "domaine",
+      "nameCompany",
+      "tax",
+      "activity",
+      "cin",
+      "category",
+      "email"
+    ])
     .then(profile => {
       if (!profile) {
         errors.noprofile = "There is no profile for this user";
@@ -162,7 +201,26 @@ router.get("/user/:id", (req, res) => {
   const errors = {};
 
   Profile.findOne({ user: req.params.id })
-    .populate("user", ["userName", "avatar"])
+    .populate("user", [
+      "userName",
+      "avatar",
+      "firstName",
+      "lastName",
+      "birthday",
+      "sex",
+      "phone",
+      "fax",
+      "adress",
+      "webSite",
+      "nameAssociation",
+      "domaine",
+      "nameCompany",
+      "tax",
+      "activity",
+      "cin",
+      "category",
+      "email"
+    ])
     .then(profile => {
       if (!profile) {
         errors.noprofile = "There is no profile for this user";
@@ -180,11 +238,30 @@ router.get("/user/:id", (req, res) => {
 // @route   GET api/profile/all
 // @desc    Get all profiles
 // @access  Public
-router.get("/all", (req, res) => {
+router.get("/all/:category", (req, res) => {
   const errors = {};
 
-  Profile.find()
-    .populate("user", ["userName", "avatar"])
+  Profile.find({ status: req.params.category })
+    .populate("user", [
+      "userName",
+      "avatar",
+      "firstName",
+      "lastName",
+      "birthday",
+      "sex",
+      "phone",
+      "fax",
+      "adress",
+      "webSite",
+      "nameAssociation",
+      "domaine",
+      "nameCompany",
+      "tax",
+      "activity",
+      "cin",
+      "category",
+      "email"
+    ])
     .then(profiles => {
       if (!profiles) {
         errors.noprofile = "There are no profiles";

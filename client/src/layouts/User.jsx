@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
+//import routing dependencis
+import { withRouter } from "react-router-dom";
+
+//import redux dependencis
+import { connect } from "react-redux";
+
+//import actions
+import { CurrentProfileAction } from "../Redux/Actions/ProfileAction";
 
 import UserNavBar from "../components/Navbars/UserNavBar";
 import Footer from "../components/Footer/Footer";
@@ -137,6 +145,8 @@ class User extends Component {
       position: "tr",
       autoDismiss: 15
     });
+
+    this.props.CurrentProfileAction();
   }
   componentDidUpdate(e) {
     if (
@@ -186,4 +196,16 @@ class User extends Component {
   }
 }
 
-export default User;
+//map store's state to component's props
+//authentification comes from root reducer the attribut that content AuthReducer
+const mapStateToProps = state => ({
+  Auth: state.Authentification,
+  Alert: state.Alert,
+  Profile: state.Profile
+});
+
+//map actions and state
+export default connect(
+  mapStateToProps,
+  { CurrentProfileAction }
+)(withRouter(User));

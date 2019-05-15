@@ -16,7 +16,6 @@ const ProfileSchema = new Schema({
   //information commun
   email: {
     type: String,
-    trim: true,
     validate: {
       validator: validator.isEmail,
       message: "{VALUE} is not a valid email"

@@ -1,8 +1,7 @@
 import Dashboard from "./UserSpace/Dashboard";
 import UserProfile from "./UserSpace/UserProfile";
-import JobList from "./UserSpace/JobList";
+import JobList from "./UserSpace/Listes/JobList";
 import Postes from "./UserSpace/Postes";
-import Icons from "./UserSpace/Icons";
 import AddJob from "./UserSpace/AddJob";
 import SignIn from "./Welcom/SignIn";
 import SignUp from "./Welcom/SignUp";
@@ -13,11 +12,11 @@ import UserList from "AdminSpace/UserList";
 import Confirm from "Welcom/Confirm";
 import Blog from "Welcom/Blog";
 import AboutAs from "Welcom/AboutAs";
-import WorkSpaceList from "UserSpace/WorkSpaceList";
-import FreelanceList from "UserSpace/FreelanceList";
-import ClientList from "UserSpace/ClientList";
-import CompanyList from "UserSpace/CompanyList";
-import AssociationList from "UserSpace/AssociationList";
+import WorkSpaceList from "UserSpace/Listes/WorkSpaceList";
+import FreelanceList from "UserSpace/Listes/FreelanceList";
+import ClientList from "UserSpace/Listes/ClientList";
+import CompanyList from "UserSpace/Listes/CompanyList";
+import AssociationList from "UserSpace/Listes/AssociationList";
 import Account from "UserSpace/Account";
 
 const dashboardRoutes = [
@@ -33,7 +32,7 @@ const dashboardRoutes = [
   {
     private: false,
     visible: false,
-    path: "/account/:id/:category",
+    path: "/account/:id",
     name: "",
     icon: "",
     component: Account,
@@ -151,15 +150,7 @@ const adminRoutes = [
     component: Postes,
     layout: "/admin"
   },
-  {
-    private: false,
-    visible: true,
-    path: "/icons",
-    name: "Icons",
-    icon: "pe-7s-science",
-    component: Icons,
-    layout: "/admin"
-  },
+
   {
     private: false,
     visible: true,

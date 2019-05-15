@@ -15,7 +15,7 @@ class HomeNavBarLinks extends Component {
   onSignOut = e => {
     e.preventDefault();
     this.props.clearCurrentProfile();
-    this.props.SignOutAction(this.props.history);
+    this.props.SignOutAction();
   };
   /************************************************************************************** */
   handleSignIn = e => {

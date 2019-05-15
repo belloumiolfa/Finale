@@ -50,6 +50,7 @@ class SignUpForm extends Component {
       ...this.state.user,
       category: this.props.match.params.category
     };
+
     this.props.SignUpAction(newUser, this.props.history);
   };
 
@@ -292,19 +293,23 @@ class SignUpForm extends Component {
                       ]}
                     />
                     <Row>
-                      <Col md={4}>
+                      <Col md={3}>
                         {errors.nameCompany && (
                           <div style={{ color: "red" }}>
                             {errors.nameCompany}
                           </div>
                         )}
                       </Col>
-                      <Col md={4}>
+                      <Col md={3}>
                         {errors.tax && (
                           <div style={{ color: "red" }}>{errors.tax}</div>
                         )}
                       </Col>
-                      <Col md={4} />
+                      <Col md={3}>
+                        {errors.activity && (
+                          <div style={{ color: "red" }}>{errors.activity}</div>
+                        )}
+                      </Col>
                     </Row>
                     <FormInputs
                       ncols={["col-md-4", "col-md-4", "col-md-4"]}

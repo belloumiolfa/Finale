@@ -8,7 +8,9 @@ const ProfileServices = {
   addExperience,
   addEducation,
   deleteExperience,
-  deleteEducation
+  deleteEducation,
+  getAllProfiles,
+  getProfileById
 };
 /******************************************************************* */
 function getCurrentProfile() {
@@ -60,6 +62,20 @@ function deleteExperience(id) {
   return axios({
     method: "delete",
     url: `${APT_url}/profile/experience/${id}`
+  });
+}
+/******************************************************************* */
+function getAllProfiles(category) {
+  return axios({
+    method: "get",
+    url: `${APT_url}/profile/all/${category}`
+  });
+}
+/******************************************************************* */
+function getProfileById(id) {
+  return axios({
+    method: "get",
+    url: `${APT_url}/profile/${id}`
   });
 }
 /*************************************** exporting ************************************************** */

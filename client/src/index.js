@@ -29,9 +29,12 @@ import Admin from "layouts/Admin";
 import SetAuthToken from "./Services/SetAuthToken";
 import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 /**************************************************************************** */
+
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
+  console.log("gggggggggggg", localStorage.jwtToken);
+
   SetAuthToken(localStorage.jwtToken);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
@@ -40,19 +43,23 @@ if (localStorage.jwtToken) {
     type: UserTypes.SIGN_IN,
     payload: decoded.user
   });
-
+  /*
   // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
+    // Signout user
+    // Remove token from localStorage
+    localStorage.removeItem("jwtToken");
+    // Remove auth header for future requests
+    SetAuthToken(false);
+    // Set current user to {} which will set isAuthenticated to false
+    Store.dispatch(SignOutAction());
     //clear profile
     Store.dispatch(clearCurrentProfile());
-    // Logout user
-    Store.dispatch(SignOutAction());
-    // TODO: Clear current Profile
 
     // Redirect to login
     window.location.href = "/home/sign-in";
-  }
+  }*/
 }
 /**************************************************************************** */
 ReactDOM.render(

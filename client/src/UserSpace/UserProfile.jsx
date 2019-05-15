@@ -31,7 +31,7 @@ import avatar from "assets/img/faces/face-3.jpg";
 import UserServices from "Services/UserServices";
 import AddExperience from "../UserSpace/AddExperience";
 import AddEducation from "../UserSpace/AddEducation";
-import ListEduExp from "../UserSpace/ListEduExp";
+import ListEduExp from "./Listes/ListEduExp";
 /**************************************************************************************************** */
 class UserProfile extends Component {
   constructor(props) {
@@ -729,7 +729,7 @@ class UserProfile extends Component {
             <Col md={4}>
               <UserCard
                 bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-                avatar={avatar}
+                avatar={user.avatar}
                 name={
                   user.firstName &&
                   user.lastName &&

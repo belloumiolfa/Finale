@@ -11,10 +11,10 @@ import { connect } from "react-redux";
 import {
   deleteEducation,
   deleteExperience
-} from "../Redux/Actions/ProfileAction";
+} from "../../Redux/Actions/ProfileAction";
 
 import Card from "components/Card/Card.jsx";
-import Button from "../components/CustomButton/CustomButton";
+import Button from "../../components/CustomButton/CustomButton";
 /*************************************************************************************************** */
 class ListEduExp extends Component {
   handleDelete = id => {

@@ -22,13 +22,12 @@ export const CurrentProfileAction = () => dispatch => {
       });
     })
     .catch(err => {
-      dispatch(AlertActions.error(err));
+      dispatch(AlertActions.error(err.response.data));
     });
 };
 /******************************************************************************************************** */
-
 // Create Profile
-export const createProfileAction = (profileData, history) => dispatch => {
+export const createProfileAction = profileData => dispatch => {
   ProfileServices.createProfile(profileData)
     .then(res => {
       dispatch({
@@ -36,10 +35,13 @@ export const createProfileAction = (profileData, history) => dispatch => {
         payload: res.data
       });
     })
-    .catch(err => dispatch(AlertActions.error(err.response.data)));
+    .catch(err => {
+      console.log(err);
+
+      dispatch(AlertActions.error(err.response.data));
+    });
 };
 /******************************************************************************************************** */
-
 //update user information
 export const updateUserAction = (userData, history) => dispatch => {
   UserServices.updateUser(userData)
@@ -102,6 +104,7 @@ export const addEducation = (eduData, history) => dispatch => {
       dispatch(AlertActions.error(err.response.data));
     });
 };
+/**************************************************************************************************** */
 
 // Delete Experience
 export const deleteExperience = id => dispatch => {
@@ -114,6 +117,7 @@ export const deleteExperience = id => dispatch => {
     )
     .catch(err => dispatch(AlertActions.error(err.response.data)));
 };
+/**************************************************************************************************** */
 
 // Delete Education
 export const deleteEducation = id => dispatch => {
@@ -125,4 +129,31 @@ export const deleteEducation = id => dispatch => {
       })
     )
     .catch(err => dispatch(AlertActions.error(err.response.data)));
+};
+/**************************************************************************************************** */
+
+// Get all profiles
+export const getProfilesAction = category => dispatch => {
+  dispatch(setProfileLoading());
+  ProfileServices.getAllProfiles(category)
+    .then(res => {
+      dispatch({
+        type: ProfileTypes.GET_PROFILES,
+        payload: res.data
+      });
+    })
+    .catch(err => dispatch(AlertActions.error(err)));
+};
+/**************************************************************************************************** */
+// Get profile by id
+export const getAccount = id => dispatch => {
+  dispatch(setProfileLoading());
+  ProfileServices.getProfileById(id)
+    .then(res => {
+      dispatch({
+        type: ProfileTypes.GET_ACCOUNT,
+        payload: res.data
+      });
+    })
+    .catch(err => dispatch(AlertActions.error(err)));
 };

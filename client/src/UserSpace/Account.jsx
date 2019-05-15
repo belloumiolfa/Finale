@@ -7,56 +7,77 @@ import {
   ControlLabel,
   FormControl
 } from "react-bootstrap";
+//import routing dependencis
+import { withRouter } from "react-router-dom";
+
+//import redux dependencis
+import { connect } from "react-redux";
+
+//import actions
+import { getAccount } from "../Redux/Actions/ProfileAction";
 
 //import components
-import usercard from "../components/UserCard/UserCard";
 import { Card } from "../components/Card/Card.jsx";
 import { UserCard } from "../components/UserCard/UserCard.jsx";
 import Button from "../components/CustomButton/CustomButton.jsx";
 
-import avatar from "assets/img/faces/face-3.jpg";
+class Account extends Component {
+  constructor(props) {
+    super(props);
 
-export default class Account extends Component {
-  componentDidMount = () => {};
+    this.state = {
+      errors: {},
+      handleName: ""
+    };
+  }
+
+  /*************************************************************************************************** */
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.Alert) {
+      this.setState({ errors: nextProps.Alert });
+    }
+    if (nextProps.Profile) {
+      /*
+      const profile = nextProps.Profile.account;
+      var name = "";
+      //------------------------------------------------------------------//
+      if (
+        profile.user.category === "client" ||
+        profile.user.category === "freelance"
+      ) {
+        if (profile.user.firstName) name = profile.user.firstName;
+        else name = "";
+        if (profile.user.lastName) name = name + " " + profile.user.lastName;
+        else name = "";
+      }
+
+      if (profile.user.category === "company") name = profile.user.nameCompany;
+
+      if (profile.user.category === "association")
+        name = profile.user.nameAssociation;
+      //------------------------------------------------------------------//
+
+      this.setState({ handleName: name });*/
+    }
+  }
+  /*************************************************************************************************** */
+
+  componentDidMount = () => {
+    this.props.getAccount(this.props.match.params.id);
+    //get user by profile.user
+  };
+
+  /*************************************************************************************************** */
   render() {
-    const user = {};
+    const profile = this.props.Profile.account;
+    const handleName = this.state.handleName;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col>
-              <UserCard
-                bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-                avatar={avatar}
-                name={
-                  user.firstName &&
-                  user.lastName &&
-                  `${user.firstName} ${user.lastName}`
-                }
-                userName={user.userName}
-                description={
-                  <span>
-                    ({user.category})
-                    <br />
-                  </span>
-                }
-                socials={
-                  <div>
-                    <Button simple>
-                      <i className="fa fa-facebook-square" />
-                    </Button>
-                    <Button simple>
-                      <i className="fa fa-twitter" />
-                    </Button>
-                    <Button simple>
-                      <i className="fa fa-google-plus-square" />
-                    </Button>
-                    <Button simple>
-                      <i class="fa fa-linkedin" />
-                    </Button>
-                  </div>
-                }
-              />
+              <h1>{handleName}</h1>
             </Col>
             <Card
               title={`username`}
@@ -69,3 +90,16 @@ export default class Account extends Component {
     );
   }
 }
+//map store's state to component's props
+//authentification comes from root reducer the attribut that content AuthReducer
+const mapStateToProps = state => ({
+  Auth: state.Authentification,
+  Alert: state.Alert,
+  Profile: state.Profile
+});
+
+//map actions and state
+export default connect(
+  mapStateToProps,
+  { getAccount }
+)(withRouter(Account));

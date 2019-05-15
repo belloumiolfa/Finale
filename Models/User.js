@@ -101,13 +101,14 @@ UserSchema.methods.generateAuthToken = user => {
   const payload = { user };
   const privateKEY = ENV.tokenSecret;
   const signOptions = {
-    expiresIn: "12h"
+    expiresIn: 3600
   };
 
   //create object token
   var token = "Bearer " + jwt.sign(payload, privateKEY, signOptions);
 
   user.token = token;
+  console.log(user);
 
   return user.save().then(() => {
     return token;
@@ -139,7 +140,7 @@ UserSchema.statics.generateConfirmationToken = user => {
   const payload = { data1: user };
   const privateKEY = ENV.tokenSecret;
   const signOptions = {
-    expiresIn: "12h"
+    expiresIn: 3600
   };
 
   //create object token

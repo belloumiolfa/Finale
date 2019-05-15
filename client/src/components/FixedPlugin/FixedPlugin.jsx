@@ -7,7 +7,6 @@ import imagine2 from "assets/img/sidebar-2.jpg";
 import imagine3 from "assets/img/sidebar-3.jpg";
 import imagine4 from "assets/img/sidebar-4.jpg";
 //import routing dependencis
-import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 //import redux dependencis
@@ -42,6 +41,8 @@ class FixedPlugin extends Component {
   /******************************************************************************************** */
 
   handleCreate = () => {
+    console.log("rrfrd");
+
     //create profile with
     this.props.createProfileAction({});
     //dispatch profile
@@ -54,11 +55,9 @@ class FixedPlugin extends Component {
   };
   /******************************************************************************************** */
   handleView = () => {
-    this.props.history.push(
-      `/user/account/${this.props.Profile.profile._id}/${
-        this.props.Profile.profile.user.category
-      }`
-    );
+    const id = this.props.Profile.profile._id;
+
+    this.props.history.push(`/user/account/${id}`);
   };
   /******************************************************************************************** */
   render() {
@@ -205,7 +204,7 @@ class FixedPlugin extends Component {
                 className="btn btn-success btn-block btn-fill"
                 onClick={this.handleCreate}
               >
-                Create Profile
+                Update Profile
               </div>
             </li>
             <li className="button-container">

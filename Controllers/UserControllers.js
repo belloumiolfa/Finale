@@ -97,6 +97,7 @@ router.post("/signup", (req, res) => {
           //get a crypted password
           newUser.password = hash;
           newUser.password2 = hash;
+
           newUser
             .save()
             //return the user just sign up
@@ -256,17 +257,21 @@ router.get(
   "/signout",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.findOne({ _id: req.user._id }).then(user => {
-      user.token = "";
+    User.findOne({ _id: req.user._id })
+      .then(user => {
+        user.token = "";
 
-      user.save().then(user => res.json({ msg: "SignOut" }));
-    });
+        user.save().then(user => res.json({ msg: "SignOut" }));
+      })
+      .catch(e => {
+        res.json(e);
+      });
   }
 );
 
 /** ******************************************************************************************************** */
 // @route   POST user/signup
-// @desc    Signup user
+// @desc    update user
 // @access  Public
 router.post(
   "/update",
@@ -275,7 +280,6 @@ router.post(
     Profile.findById({ _id: req.user._id }).then(res => {
       //create new user
       const body = req.body;
-      console.log("rrrrrrr", req.user._id);
 
       var newUser = new User({
         userName: body.userName,
@@ -305,7 +309,6 @@ router.post(
       newUser.avatar = res.avatar;
 
       const { errors, isValid } = validateRegisterInput(newUser);
-      console.log(newUser);
 
       // Check Validation
       if (!isValid) {
@@ -315,8 +318,6 @@ router.post(
         .save()
         //return the user just updated
         .then(user => {
-          console.log(user);
-
           res.json({ user: user });
         })
         .catch(err => console.log(err));
