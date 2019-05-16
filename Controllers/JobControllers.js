@@ -42,7 +42,7 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const newJob = req.body;
+    var newJob = req.body;
     newJob.creator = req.user._id;
 
     const { errors, isValid } = validateJobInput(newJob);
@@ -62,7 +62,7 @@ router.post(
 // @access  Public
 router.get("/", (req, res) => {
   Job.find()
-    .then(jobs => res.json(jobs))
+    .then(jobs => res.send(jobs))
     .catch(err => res.status(404).json({ nojobsfound: "No jobs found" }));
 });
 /********************************************************************************************************** */

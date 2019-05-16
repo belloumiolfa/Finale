@@ -2,7 +2,7 @@ import Dashboard from "./UserSpace/Dashboard";
 import UserProfile from "./UserSpace/UserProfile";
 import JobList from "./UserSpace/Listes/JobList";
 import Postes from "./UserSpace/Postes";
-import AddJob from "./UserSpace/AddJob";
+import AddJob from "./UserSpace/Job/AddJob";
 import SignIn from "./Welcom/SignIn";
 import SignUp from "./Welcom/SignUp";
 import Welcom from "Welcom/Welcom";
@@ -27,6 +27,15 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: "pe-7s-user",
     component: UserProfile,
+    layout: "/user"
+  },
+  {
+    private: false,
+    visible: true,
+    path: "/addjob",
+    name: "Add job",
+    icon: "pe-7s-portfolio",
+    component: AddJob,
     layout: "/user"
   },
   {
@@ -99,16 +108,6 @@ const dashboardRoutes = [
     name: "Postes",
     icon: "pe-7s-news-paper",
     component: Postes,
-    layout: "/user"
-  },
-
-  {
-    private: false,
-    visible: true,
-    path: "/addjob",
-    name: "Add job",
-    icon: "pe-7s-portfolio",
-    component: AddJob,
     layout: "/user"
   }
 ];

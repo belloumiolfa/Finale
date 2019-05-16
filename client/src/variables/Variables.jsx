@@ -1,5 +1,100 @@
 //
 // //
+// // // For tables
+// //
+//
+const sector = [
+  "Select sector",
+  "Shopping",
+  "Administration",
+  "Agriculture",
+  "Food",
+  "Automatism",
+  "automobile",
+  "Banks and Insurance",
+  "Biotechnology",
+  "Business development",
+  "Call centers",
+  "Chemistry",
+  "Retail business",
+  "Trade and distribution",
+  "Communication",
+  "Accounting",
+  "Construction",
+  "Quality Control",
+  "Design",
+  "Electricity",
+  "Electronic",
+  "Education",
+  "Finance",
+  "Training",
+  "Management",
+  "Hospitality and Tourism",
+  "Humanitarian",
+  "Immovable",
+  "Industry",
+  "Legal",
+  "Logistics",
+  "Mechanical",
+  "Media-Journalism",
+  "Pharmaceuticals",
+  "Research",
+  "Human ressources",
+  "Restoration",
+  "Health",
+  "Science",
+  "Oil Sector",
+  "Client services",
+  "Sport",
+  "Strategy / consulting",
+  "Information technology",
+  "Telecommunications",
+  "Textile",
+  "Transport",
+  "Sale"
+];
+
+const contract = [
+  "Select Contract",
+  "SIVP 173 ",
+  "Saisonnier 3",
+  "Freelance / Indépendant 37",
+  "CDI 1032 ",
+  "Contrat al Karama 7",
+  "Intérim 3 ",
+  "CDD 225 ",
+  "Stage 2"
+];
+
+const region = [
+  "Select Region",
+  "Ariana",
+  "Béja",
+  "Ben Arous ",
+  "Bizerte",
+  "Gabès",
+  "Gafsa",
+  "Jendouba",
+  "Kairouan",
+  "Kasserine",
+  "Kebili",
+  "Kef",
+  "Mahdia",
+  "Manouba",
+  "Medenine",
+  "Monastir",
+  "Nabeul",
+  "Sfax",
+  "Sidi Bouzid ",
+  "Siliana",
+  "Sousse",
+  "Tataouine",
+  "Tozeur",
+  "Tunis",
+  "Zaghouan"
+];
+//
+// //
 // // // For notifications
 // //
 //
@@ -582,6 +677,9 @@ var legendBar = {
 };
 
 module.exports = {
+  sector,
+  region,
+  contract,
   style, // For notifications (App container and Notifications view)
   thArray,
   tdArray, // For tables (TableList view)

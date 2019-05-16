@@ -33,8 +33,6 @@ import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
-  console.log("gggggggggggg", localStorage.jwtToken);
-
   SetAuthToken(localStorage.jwtToken);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
