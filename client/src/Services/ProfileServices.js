@@ -10,7 +10,10 @@ const ProfileServices = {
   deleteExperience,
   deleteEducation,
   getAllProfiles,
-  getProfileById
+  getProfileById,
+  saveJob,
+  removeJob,
+  getProfileByUserId
 };
 /******************************************************************* */
 function getCurrentProfile() {
@@ -76,6 +79,27 @@ function getProfileById(id) {
   return axios({
     method: "get",
     url: `${APT_url}/profile/${id}`
+  });
+}
+/******************************************************************* */
+function getProfileByUserId(id) {
+  return axios({
+    method: "get",
+    url: `${APT_url}/profile/user/${id}`
+  });
+}
+/******************************************************************* */
+function saveJob(id) {
+  return axios({
+    method: "post",
+    url: `${APT_url}/profile/savejob/${id}`
+  });
+}
+/******************************************************************* */
+function removeJob(id) {
+  return axios({
+    method: "delete",
+    url: `${APT_url}/profile/savejob/${id}`
   });
 }
 /*************************************** exporting ************************************************** */

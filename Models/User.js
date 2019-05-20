@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const bcrypt = require("bcryptjs");
 const ENV = require("../Constants");
+const Schema = mongoose.Schema;
 
 // Create Schema
 const UserSchema = new mongoose.Schema({
@@ -100,12 +101,12 @@ UserSchema.methods.generateAuthToken = user => {
   // Create JWT Payload
   const payload = { user };
   const privateKEY = ENV.tokenSecret;
-  /* const signOptions = {
-    expiresIn: 3600
-  };*/
+  const signOptions = {
+    expiresIn: "12h"
+  };
 
   //create object token
-  var token = "Bearer " + jwt.sign(payload, privateKEY /* signOptions*/);
+  var token = "Bearer " + jwt.sign(payload, privateKEY, signOptions);
 
   user.token = token;
 
@@ -138,13 +139,11 @@ UserSchema.statics.generateConfirmationToken = user => {
   // Create JWT Payload
   const payload = { data1: user };
   const privateKEY = ENV.tokenSecret;
-  /* const signOptions = {
-    expiresIn: 3600
-  };*/
-
+  const signOptions = {
+    expiresIn: "12h"
+  };
   //create object token
-  var token = "Bearer " + jwt.sign(payload, privateKEY /*signOptions*/);
-
+  var token = "Bearer " + jwt.sign(payload, privateKEY, signOptions);
   return token;
 };
 

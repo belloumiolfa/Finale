@@ -18,6 +18,7 @@ import ClientList from "UserSpace/Listes/ClientList";
 import CompanyList from "UserSpace/Listes/CompanyList";
 import AssociationList from "UserSpace/Listes/AssociationList";
 import Account from "UserSpace/Account";
+import Job from "UserSpace/Job/Job";
 
 const dashboardRoutes = [
   {
@@ -108,6 +109,15 @@ const dashboardRoutes = [
     name: "Postes",
     icon: "pe-7s-news-paper",
     component: Postes,
+    layout: "/user"
+  },
+  {
+    private: false,
+    visible: false,
+    path: "/job/:job",
+    name: "Jobs",
+    icon: "pe-7s-news-paper",
+    component: Job,
     layout: "/user"
   }
 ];

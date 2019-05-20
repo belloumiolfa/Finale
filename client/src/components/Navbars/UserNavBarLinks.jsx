@@ -22,7 +22,8 @@ class UserNavBarLinks extends Component {
 
   handleGetAccount = e => {
     e.preventDefault();
-    this.props.history.push("/user/account");
+    const id = this.props.Auth.user._id;
+    this.props.history.push(`/user/account/${id}`);
   };
   /************************************************************************************** */
 

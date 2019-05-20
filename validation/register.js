@@ -46,7 +46,7 @@ module.exports = function validateRegisterInput(data) {
     data.tax = !isEmpty(data.tax) ? data.tax : "";
 
     if (!Validator.isLength(data.tax, { min: 2, max: 30 })) {
-      errors.tax = "Company name be between 2 and 30 characters";
+      errors.tax = "Tax be between 2 and 30 characters";
     }
 
     if (Validator.isEmpty(data.tax)) {
@@ -55,7 +55,7 @@ module.exports = function validateRegisterInput(data) {
     data.activity = !isEmpty(data.activity) ? data.activity : "";
 
     if (!Validator.isLength(data.activity, { min: 2, max: 30 })) {
-      errors.activity = "Company name be between 2 and 30 characters";
+      errors.activity = "Activity be between 2 and 30 characters";
     }
 
     if (Validator.isEmpty(data.activity)) {

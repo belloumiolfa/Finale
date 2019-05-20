@@ -5,12 +5,9 @@ import {
   Col,
   FormGroup,
   ControlLabel,
-  FormControl,
-  InputGroup,
-  Form
+  FormControl
 } from "react-bootstrap";
 //import routing dependencis
-import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 //import redux dependencis
@@ -55,7 +52,7 @@ class AddJob extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.props.AddJobAction(this.state.job);
+    this.props.AddJobAction(this.state.job, this.props.history);
   };
   /*************************************************************************************************** */
   render() {
@@ -199,7 +196,7 @@ class AddJob extends Component {
                             name: "sector",
                             onChange: this.handleChange
                           }}
-                        />{" "}
+                        />
                         {errors.sector && (
                           <div style={{ color: "red" }}>{errors.sector}</div>
                         )}

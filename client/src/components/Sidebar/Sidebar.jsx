@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+//import routing dependencis
+import { withRouter } from "react-router-dom";
 
+//import redux dependencis
+import { connect } from "react-redux";
 import UserNavBarLinks from "../Navbars/UserNavBarLinks";
 
 import logo from "assets/img/reactlogo.png";
@@ -23,6 +27,8 @@ class Sidebar extends Component {
     window.addEventListener("resize", this.updateDimensions.bind(this));
   }
   render() {
+    var privé = false;
+
     const sidebarBackground = {
       backgroundImage: "url(" + this.props.image + ")"
     };

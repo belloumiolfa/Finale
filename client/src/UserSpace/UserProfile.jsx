@@ -109,7 +109,7 @@ class UserProfile extends Component {
           content={
             <form onSubmit={this.handleSubmit}>
               <FormInputs
-                ncols={["col-md-4", "col-md-4", "col-md-4"]}
+                ncols={["col-md-6", "col-md-6"]}
                 properties={[
                   {
                     label: "Username",
@@ -120,15 +120,7 @@ class UserProfile extends Component {
                     name: "userName",
                     onChange: this.handleChangeUser
                   },
-                  {
-                    label: "Status",
-                    type: "text",
-                    bsClass: "form-control",
-                    defaultValue: profile.status,
-                    placeholder: "Status",
-                    name: "status",
-                    onChange: this.handleChangeProfile
-                  },
+
                   {
                     label: "Email address",
                     type: "email",
@@ -140,6 +132,7 @@ class UserProfile extends Component {
                   }
                 ]}
               />
+
               <Row>
                 <Col md={4}>
                   {errors.userName && (

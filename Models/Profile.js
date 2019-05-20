@@ -120,7 +120,13 @@ const ProfileSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  savedJob: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "job"
+    }
+  ]
 });
 
 module.exports = Profile = mongoose.model("Profile", ProfileSchema);

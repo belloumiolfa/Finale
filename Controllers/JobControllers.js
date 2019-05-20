@@ -36,7 +36,7 @@ var Profile = require("../Models/Profile");
 router.get("/test", (req, res) => res.json({ msg: "Posts Works" }));
 /********************************************************************************************************** */
 // @route   POST /job
-// @desc    Create post
+// @desc    Create job
 // @access  Private
 router.post(
   "/",
@@ -66,17 +66,30 @@ router.get("/", (req, res) => {
     .catch(err => res.status(404).json({ nojobsfound: "No jobs found" }));
 });
 /********************************************************************************************************** */
+// @route   GET /job
+// @desc    Get all jobs publiated
+// @access  Public
+router.get("/publiated", (req, res) => {
+  Job.find({ publiate: true, finish: false })
+    .then(jobs => res.send(jobs))
+    .catch(err => res.status(404).json({ nojobsfound: "No jobs found" }));
+});
+/********************************************************************************************************** */
 // @route   GET /job/:id
 // @desc    Get job by id
 // @access  Public
 router.get("/:id", (req, res) => {
+  const errors = {};
+
   Job.findById(req.params.id)
     .then(job => {
       if (job) res.json(job);
+      else {
+        errors.nojobfound = "No job found with that ID";
+        res.json(errors);
+      }
     })
-    .catch(err =>
-      res.status(400).json({ nojobfound: "No job found with that ID" })
-    );
+    .catch(err => res.status(400).json(errors));
 });
 /** ******************************************************************************************************** */
 // @route   GET /job/:user_id
@@ -98,8 +111,6 @@ router.get(
 // @desc    Get job by user id creator
 // @access  public
 router.get("/user/:user_id", (req, res) => {
-  console.log(req.params.user_id);
-
   Job.find({ creator: req.params.user_id })
     .then(jobs => res.json(jobs))
     .catch(err =>
@@ -288,70 +299,35 @@ router.post(
   "/search",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    attribut = req.body.attribut;
-    value = req.body.value;
+    const filter = req.body;
+    const errors = {};
 
-    if (attribut == "region") {
-      Job.find({ region: value })
-        .then(jobs => {
-          if (jobs) {
-            res.status(200).send({ jobs });
-          } else {
-            res.status(404).send({ msg: "Not Found" });
-          }
-        })
-        .catch(e => {
-          res.status(400).send({ msg: "Bad request" });
-        });
-    } else if (attribut == "salary") {
-      Job.find({ salary: value })
-        .then(jobs => {
-          if (jobs) {
-            res.status(200).send({ jobs });
-          } else {
-            res.status(404).send({ msg: "Not Found" });
-          }
-        })
-        .catch(e => {
-          res.status(400).send({ msg: "Bad request" });
-        });
-    } else if (attribut == "contract") {
-      Job.find({ contract: value })
-        .then(jobs => {
-          if (jobs) {
-            res.status(200).send({ jobs });
-          } else {
-            res.status(404).send({ msg: "Not Found" });
-          }
-        })
-        .catch(e => {
-          res.status(400).send({ msg: "Bad request" });
-        });
-    } else if (attribut == "sector") {
-      Job.find({ sector: value })
-        .then(jobs => {
-          if (jobs) {
-            res.status(200).send({ jobs });
-          } else {
-            res.status(404).send({ msg: "Not Found" });
-          }
-        })
-        .catch(e => {
-          res.status(400).send({ msg: "Bad request" });
-        });
-    } else if (attribut == "schedule") {
-      Job.find({ schedule: value })
-        .then(jobs => {
-          if (jobs) {
-            res.status(200).send({ jobs });
-          } else {
-            res.status(404).send({ msg: "Not Found" });
-          }
-        })
-        .catch(e => {
-          res.status(400).send({ msg: "Bad request" });
-        });
+    function Search(job) {
+      var query = true;
+      if (job.sector) {
+        query = query && filter.sector === job.sector;
+      }
+      if (job.region) {
+        query = query && filter.region === job.region;
+      }
+      if (job.schedule) {
+        query = query && filter.schedule === job.schedule;
+      }
+      if (job.contract) {
+        query = query && filter.contract === job.contract;
+      }
+
+      return query;
     }
+    Job.find({ publiate: true }).then(jobs => {
+      var results = jobs.filter(Search);
+      if (results.length === 0) {
+        errors.jobnotfound = "No jobs found for this filter";
+        res.json(errors);
+      } else {
+        res.json(results);
+      }
+    });
   }
 );
 /***************************************** exporting ***************************************************** */

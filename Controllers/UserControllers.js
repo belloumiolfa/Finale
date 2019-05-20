@@ -129,47 +129,55 @@ router.get(
 // @route   post user
 // @desc    update accepted to true
 // @access  private
-router.post("/acceptuser", (req, res) => {
-  var id = req.body.id;
+router.post(
+  "/acceptuser",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    var id = req.body.id;
 
-  if (!ObjectID.isValid(id)) {
-    return res.status(404).send({ msg: "Id not valid" });
+    if (!ObjectID.isValid(id)) {
+      return res.status(404).send({ msg: "Id not valid" });
+    }
+    User.findOneAndUpdate(
+      { _id: id },
+      { $set: { accepted: true } },
+      { new: true }
+    )
+      .then(user => {
+        const token = User.generateConfirmationToken(user);
+        user.confirmationToken = token;
+        user.save().then(user => res.json({ user: user }));
+      })
+      .catch(e => {
+        res.status(400).send({ msg: "Not found" });
+      });
   }
-  User.findOneAndUpdate(
-    { _id: id },
-    { $set: { accepted: true } },
-    { new: true }
-  )
-    .then(user => {
-      const token = User.generateConfirmationToken(user);
-      user.confirmationToken = token;
-      user.save().then(user => res.json({ user: user }));
-    })
-    .catch(e => {
-      res.status(400).send({ msg: "Not found" });
-    });
-});
+);
 /** ****************************************************************************************************** */
 // @route   DELETE user
 // @desc    delete user
 // @access  private
-router.delete("/deleteuser", (req, res) => {
-  var id = req.body.id;
+router.delete(
+  "/deleteuser",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    var id = req.body.id;
 
-  if (!ObjectID.isValid(id)) {
-    return res.status(404).send("Id not valid");
-  }
+    if (!ObjectID.isValid(id)) {
+      return res.status(404).send("Id not valid");
+    }
 
-  User.findOneAndRemove({
-    _id: id
-  })
-    .then(user => {
-      res.send({ msg: "deleted" });
+    User.findOneAndRemove({
+      _id: id
     })
-    .catch(e => {
-      res.status(400).send({ msg: "Not found" });
-    });
-});
+      .then(user => {
+        res.send({ msg: "deleted" });
+      })
+      .catch(e => {
+        res.status(400).send({ msg: "Not found" });
+      });
+  }
+);
 /** ******************************************************************************************************** */
 // @route   POST  user/nodemailer
 // @desc    retrun user
@@ -249,6 +257,21 @@ router.get(
   }
 );
 
+/** ******************************************************************************************************** */
+// @route   GET user
+// @desc    retrun user
+// @access  private
+router.get(
+  "/getuser/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findById(req.params.id)
+      .then(user => {
+        res.json(user);
+      })
+      .catch(err => console.log(err));
+  }
+);
 /** ******************************************************************************************************** */
 // @route   get /user/signout
 // @desc    signout

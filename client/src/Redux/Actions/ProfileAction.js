@@ -144,16 +144,3 @@ export const getProfilesAction = category => dispatch => {
     })
     .catch(err => dispatch(AlertActions.error(err)));
 };
-/**************************************************************************************************** */
-// Get profile by id
-export const getAccount = id => dispatch => {
-  dispatch(setProfileLoading());
-  ProfileServices.getProfileById(id)
-    .then(res => {
-      dispatch({
-        type: ProfileTypes.GET_ACCOUNT,
-        payload: res.data
-      });
-    })
-    .catch(err => dispatch(AlertActions.error(err)));
-};

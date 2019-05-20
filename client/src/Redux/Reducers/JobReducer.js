@@ -33,7 +33,7 @@ export const job = (state = initialState, action) => {
     case JobTypes.DELETE_JOB:
       return {
         ...state,
-        jobs: state.jobs.filter(post => job._id !== action.payload)
+        jobs: state.jobs.filter(job => job._id !== action.payload)
       };
     default:
       return state;

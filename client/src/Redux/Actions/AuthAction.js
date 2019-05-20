@@ -39,18 +39,20 @@ export const AcceptAction = user => dispatch => {
 /********************************************************************************************** */
 //refuse action
 export const RefuseUser = user => dispatch => {
-  //send sorry email
+  if (window.confirm("Are you sure? This can NOT be undone!")) {
+    //send sorry email
 
-  UserServices.deleteUser(user).then(res => {
-    dispatch({
-      type: AuthTypes.ACCEPT,
-      payload: false
+    UserServices.deleteUser(user).then(res => {
+      dispatch({
+        type: AuthTypes.ACCEPT,
+        payload: false
+      });
+      dispatch({
+        type: AuthTypes.REFUSE,
+        payload: true
+      });
     });
-    dispatch({
-      type: AuthTypes.REFUSE,
-      payload: true
-    });
-  });
+  }
 };
 /********************************************************************************************** */
 //confirm action
@@ -79,6 +81,7 @@ export const SignInAction = userData => dispatch => {
 
       // Set token to Auth header
       SetAuthToken(token);
+
       // Decode token to get user data
       const decoded = jwt_decode(token);
 

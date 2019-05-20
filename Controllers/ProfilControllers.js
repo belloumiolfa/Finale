@@ -222,16 +222,12 @@ router.get("/user/:id", (req, res) => {
       "email"
     ])
     .then(profile => {
-      if (!profile) {
-        errors.noprofile = "There is no profile for this user";
-        res.status(404).json(errors);
-      }
-
       res.json(profile);
     })
-    .catch(err =>
-      res.status(404).json({ profile: "There is no profile for this user" })
-    );
+    .catch(err => {
+      errors.profile = "There is no profile for this user";
+      res.status(404).json(errors);
+    });
 });
 /******************************************************************************************************* */
 
@@ -410,6 +406,62 @@ router.delete(
       User.findOneAndRemove({ _id: req.user._id }).then(() =>
         res.json({ success: true })
       );
+    });
+  }
+);
+
+/** ******************************************************************************************************** */
+// @route   POST profile/savejob/:id
+// @desc    save favorite job
+// @access  private
+router.post(
+  "/savejob/:job",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user._id }).then(profile => {
+      // Add savedJob array
+      profile.savedJob.unshift({ job: req.params.job, save: true });
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+/** ******************************************************************************************************** */
+// @route   DELTE profile/savejob/:id
+// @desc    save favorite job
+// @access  private
+router.delete(
+  "/savejob/:job",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user._id }).then(profile => {
+      // Get remove index
+      const removeIndex = profile.savedJob
+        .map(item => item.id)
+        .indexOf(req.params.job);
+
+      // Splice out of array
+      profile.savedJob.splice(removeIndex, 1);
+
+      // Save
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+/** ******************************************************************************************************** */
+// @route   POST profile/savejob/:id
+// @desc    save favorite job
+// @access  private
+router.get(
+  "/savejob/:job",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    Profile.findOne({ user: req.user._id }).then(profile => {
+      // Add savedJob array
+      var job = profile.savedJob.filter(job => job._id == req.params.job);
+      if (job.length > 0) res.send(true);
+      else res.send(false);
     });
   }
 );

@@ -45,13 +45,15 @@ class SignIn extends Component {
       this.setState({ errors: nextProps.Alert });
     }
     if (nextProps.Auth.isAuthenticated) {
-      this.props.history.push("/user/profile");
+      const id = this.props.Auth.user._id;
+      this.props.history.push(`/user/profile`);
     }
   }
 
   componentDidMount() {
     if (this.props.Auth.isAuthenticated) {
-      this.props.history.push("/user/profile");
+      const id = this.props.Auth.user._id;
+      this.props.history.push(`/user/profile`);
     }
   }
   /***************************************************************************************************** */

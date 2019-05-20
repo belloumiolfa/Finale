@@ -6,6 +6,7 @@ const UserServices = {
   SignIn,
   updateUser,
   getUser,
+  getUserByID,
   getCurrentUser,
   getUsers,
   getNewUsers,
@@ -93,11 +94,18 @@ function confirm(token) {
 }
 /***************************************************************** */
 
-function getUser(id) {
+function getUser() {
   return axios({
     method: "post",
-    url: `${APT_url}/user/getuser`,
-    data: { id }
+    url: `${APT_url}/user/getuser`
+  });
+}
+/***************************************************************** */
+
+function getUserByID(id) {
+  return axios({
+    method: "get",
+    url: `${APT_url}/user/getuser/${id}`
   });
 }
 
