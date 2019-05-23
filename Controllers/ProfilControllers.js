@@ -4,11 +4,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
-const gravatar = require("gravatar");
-const bcrypt = require("bcryptjs");
-
-const jwt = require("jsonwebtoken");
-const keys = require("../Constants");
 
 const passport = require("passport");
 
@@ -18,7 +13,6 @@ router.use(bodyParser.json());
  * Load database connexion
  */
 var { mongoose } = require("../config");
-let { ObjectID } = require("mongodb");
 
 /**
  * Load user model
@@ -153,7 +147,7 @@ router.post(
 
 /******************************************************************************************************* */
 
-// @route   GET api/profile/handle/:handle
+// @route   GET api/profile/:id
 // @desc    Get profile by handle
 // @access  Public
 

@@ -63,10 +63,15 @@ app.use("/profile", profile);
 const job = require("./Controllers/JobControllers");
 app.use("/job", job);
 /**
- * job controllers
+ * Post controllers
  */
 const post = require("./Controllers/PostControllers");
 app.use("/post", post);
+/**
+ * WorkSpace controllers
+ */
+const workSpace = require("./Controllers/WorkSpaceController");
+app.use("/workspace", workSpace);
 /**
  * server request
  */

@@ -16,11 +16,7 @@ const JobSchema = new mongoose.Schema({
   salary: { type: String, required: true },
 
   publication: { type: Date },
-  deadline: {
-    day: { type: String },
-    month: { type: String },
-    year: { type: String }
-  },
+  deadline: { type: Date },
 
   sector: { type: String, required: true },
   contract: { type: String },

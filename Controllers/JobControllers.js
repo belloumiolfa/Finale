@@ -304,16 +304,16 @@ router.post(
 
     function Search(job) {
       var query = true;
-      if (job.sector) {
+      if (filter.sector) {
         query = query && filter.sector === job.sector;
       }
-      if (job.region) {
+      if (filter.region) {
         query = query && filter.region === job.region;
       }
-      if (job.schedule) {
+      if (filter.schedule) {
         query = query && filter.schedule === job.schedule;
       }
-      if (job.contract) {
+      if (filter.contract) {
         query = query && filter.contract === job.contract;
       }
 

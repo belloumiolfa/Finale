@@ -112,7 +112,7 @@ class UserProfile extends Component {
                 ncols={["col-md-6", "col-md-6"]}
                 properties={[
                   {
-                    label: "Username",
+                    label: "User name",
                     type: "text",
                     bsClass: "form-control",
                     defaultValue: user.userName,
@@ -671,7 +671,7 @@ class UserProfile extends Component {
                     ncols={["col-md-12"]}
                     properties={[
                       {
-                        label: "Gi Hub User name",
+                        label: "Git Hub User name",
                         type: "text",
                         bsClass: "form-control",
                         placeholder: "Web site",

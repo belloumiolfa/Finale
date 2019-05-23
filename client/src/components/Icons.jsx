@@ -10,11 +10,6 @@ import UserCard from "../components/UserCard/UserCard";
 import Button from "../components/CustomButton/CustomButton";
 /******************************************************************************************************* */
 class Icons extends Component {
-  handleViewAccount = id => {
-    console.log(id);
-    this.props.history.push(`/user/account/${id}`);
-  };
-
   render() {
     const { title, profiles } = this.props;
     var handleName = "";
@@ -57,7 +52,7 @@ class Icons extends Component {
                           className="font-icon-list"
                           key={key}
                         >
-                          <Link to={`/user/account/${profile._id}`}>
+                          <Link to={`/user/account/${profile.user._id}`}>
                             {" "}
                             <UserCard
                               bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"

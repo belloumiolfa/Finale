@@ -55,7 +55,7 @@ class FixedPlugin extends Component {
   };
   /******************************************************************************************** */
   handleView = () => {
-    const id = this.props.Profile.profile._id;
+    const id = this.props.Profile.profile.user._id;
 
     this.props.history.push(`/user/account/${id}`);
   };

@@ -19,6 +19,8 @@ import CompanyList from "UserSpace/Listes/CompanyList";
 import AssociationList from "UserSpace/Listes/AssociationList";
 import Account from "UserSpace/Account";
 import Job from "UserSpace/Job/Job";
+import AddWorkSpace from "WorkSpace/AddWorkSpace";
+import WorkSpace from "WorkSpace/WorkSpace";
 
 const dashboardRoutes = [
   {
@@ -118,6 +120,24 @@ const dashboardRoutes = [
     name: "Jobs",
     icon: "pe-7s-news-paper",
     component: Job,
+    layout: "/user"
+  },
+  {
+    private: false,
+    visible: false,
+    path: "/addSpace/:job",
+    name: "WorkSpace",
+    icon: "pe-7s-news-paper",
+    component: AddWorkSpace,
+    layout: "/user"
+  },
+  {
+    private: false,
+    visible: false,
+    path: "/workspace/:job",
+    name: "WorkSpace",
+    icon: "pe-7s-news-paper",
+    component: WorkSpace,
     layout: "/user"
   }
 ];

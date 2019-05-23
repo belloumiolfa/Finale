@@ -65,6 +65,7 @@ class Account extends Component {
   /*************************************************************************************************** */
   render() {
     const { user, profile } = this.state;
+
     return (
       <div className="content">
         <Grid fluid>
@@ -81,7 +82,7 @@ class Account extends Component {
               <span>
                 ({user.category})
                 <br />
-                {profile.bio}
+                {profile.bio && <span>{profile.bio}</span>}
               </span>
             }
             socials={

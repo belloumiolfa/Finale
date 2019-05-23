@@ -81,7 +81,9 @@ class JobList extends Component {
   handleRemove = job => {
     this.props.RemoveJobAction(job);
   };
-  handleWorkSpace = job => {};
+  handleWorkSpace = job => {
+    this.props.history.push(`/user/addSpace/${job}`);
+  };
   /************************************************************************************************** */
   render() {
     const { jobs, user } = this.state;
@@ -196,7 +198,7 @@ class JobList extends Component {
                                               this.handleWorkSpace(job._id)
                                             }
                                           >
-                                            <i className="pe-7s-expand1" />
+                                            <span>Work Space </span>
                                           </Button>
                                         </div>
                                       )}
