@@ -99,6 +99,8 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log(req.user._id);
+
     Job.find({ creator: req.user._id })
       .then(jobs => res.json(jobs))
       .catch(err =>
@@ -306,15 +308,19 @@ router.post(
       var query = true;
       if (filter.sector) {
         query = query && filter.sector === job.sector;
+        console.log(query);
       }
       if (filter.region) {
         query = query && filter.region === job.region;
+        console.log(query);
       }
       if (filter.schedule) {
         query = query && filter.schedule === job.schedule;
+        console.log(query);
       }
       if (filter.contract) {
         query = query && filter.contract === job.contract;
+        console.log(query);
       }
 
       return query;
@@ -326,6 +332,37 @@ router.post(
         res.json(errors);
       } else {
         res.json(results);
+      }
+    });
+  }
+);
+/** ******************************************************************************************************** */
+// @route   POST job/postulate
+// @desc    postulate
+// @access  private
+router.post(
+  "/postulate/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    // console.log(req.params.id);
+
+    Job.findOne({ _id: req.params.id }).then(job => {
+      const user = req.user._id;
+      // console.log(job.applications);
+      const tab = job.applications.filter(job => (job = req.user._id));
+      console.log(tab);
+
+      if (tab.length === 0) {
+        job.applications.push(user);
+        job.save().then(job => {
+          console.log(job.applications);
+          res.json(job);
+        });
+      } else {
+        errors.postulated = "Already Postulated";
+        res.json(errors);
       }
     });
   }

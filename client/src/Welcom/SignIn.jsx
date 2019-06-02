@@ -36,7 +36,7 @@ class SignIn extends Component {
 
     //new user
     var newUser = this.state.user;
-    this.props.SignInAction(newUser);
+    this.props.SignInAction(newUser, this.props.history);
   };
   /************************************* componentWillReceiveProps ************************************* */
 
@@ -49,6 +49,7 @@ class SignIn extends Component {
       this.props.history.push(`/user/profile`);
     }
   }
+  /***************************************************************************************************** */
 
   componentDidMount() {
     if (this.props.Auth.isAuthenticated) {

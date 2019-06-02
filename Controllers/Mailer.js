@@ -3,13 +3,23 @@ const ENV = require("../Constants");
 const { User } = require("../Models/User");
 
 //nodemailer configuration
+// const SetUpMail = () => {
+//   return NodeMailer.createTransport({
+//     host: ENV.EMAIL_HOST,
+//     port: ENV.EMAIL_PORT,
+//     auth: {
+//       user: ENV.EMAIL_USER,
+//       pass: ENV.EMAIL_PASS
+//     }
+//   });
+// };
+
 const SetUpMail = () => {
   return NodeMailer.createTransport({
-    host: ENV.EMAIL_HOST,
-    port: ENV.EMAIL_PORT,
+    service: "gmail",
     auth: {
-      user: ENV.EMAIL_USER,
-      pass: ENV.EMAIL_PASS
+      user: ENV.GMAIL_USER,
+      pass: ENV.GMAIL_PASS
     }
   });
 };

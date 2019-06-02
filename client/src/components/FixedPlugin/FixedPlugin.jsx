@@ -41,10 +41,8 @@ class FixedPlugin extends Component {
   /******************************************************************************************** */
 
   handleCreate = () => {
-    console.log("rrfrd");
-
     //create profile with
-    this.props.createProfileAction({});
+    this.props.createProfileAction({}, this.props.history);
     //dispatch profile
     this.props.history.push("/user/profile");
   };
@@ -55,7 +53,7 @@ class FixedPlugin extends Component {
   };
   /******************************************************************************************** */
   handleView = () => {
-    const id = this.props.Profile.profile.user._id;
+    const id = this.props.Auth.user.user._id;
 
     this.props.history.push(`/user/account/${id}`);
   };

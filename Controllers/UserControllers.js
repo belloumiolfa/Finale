@@ -201,12 +201,12 @@ router.post("/nodemailer", (req, res) => {
 /** ******************************************************************************************************** */
 // @route   post user
 // @desc    update confirm to true
-// @access  private
+// @access  public
 router.post("/confirm", (req, res) => {
-  var token = req.body.token;
+  var id = req.body.id;
 
   User.findOneAndUpdate(
-    { confirmationToken: token },
+    { _id: id },
     { $set: { confirmed: true, confirmationToken: "" } },
     { new: true }
   )
@@ -218,7 +218,6 @@ router.post("/confirm", (req, res) => {
     });
 });
 /** ******************************************************************************************************** */
-
 // @route   POST user/signin
 // @desc    signin User / Returning JWT Token
 // @access  Public

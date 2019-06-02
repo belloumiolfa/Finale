@@ -155,6 +155,15 @@ const adminRoutes = [
   {
     private: false,
     visible: true,
+    path: "/account",
+    name: "admin",
+    icon: "pe-7s-graph",
+    component: Account,
+    layout: "/admin"
+  },
+  {
+    private: false,
+    visible: true,
     path: "/user-list",
     name: "User list",
     icon: "pe-7s-users",

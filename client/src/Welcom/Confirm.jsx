@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "react-bootstrap";
+import jwt_decode from "jwt-decode";
+import NotificationSystem from "react-notification-system";
 
 //import routing dependencis
 import { Link } from "react-router-dom";
@@ -10,6 +12,10 @@ import { connect } from "react-redux";
 
 //import actions
 import { ConfirmAction } from "../Redux/Actions/AuthAction";
+
+import { style } from "../variables/Variables";
+
+/************************************************************************************************* */
 class Confirm extends Component {
   constructor(props) {
     super(props);
@@ -43,24 +49,26 @@ class Confirm extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>TrustiT.WORK</b> - Thank you for confirmate your email.
+          Welcome to <b>TrustiT.WORK</b> - Thank you for confirmattion.
         </div>
       ),
       level: level,
       position: "tr",
       autoDismiss: 15
     });
+    const decoded = jwt_decode(this.props.match.params.token);
 
-    this.props.ConfirmAction(this.props.match.params.token);
+    this.props.ConfirmAction(decoded.user._id, this.props.history);
   }
 
   render() {
     return (
       <div className="container">
         <Grid fluid>
-          {" "}
+          <NotificationSystem ref="notificationSystem" style={style} />
+
           <div>
-            <h2>Thank you to verify your account </h2>
+            <h2>Thank you for verifying your account </h2>
             <span>
               You can get your account <Link to="/user/profile">Account</Link>
             </span>

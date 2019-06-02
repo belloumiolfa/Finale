@@ -62,7 +62,7 @@ class AddJob extends Component {
         <Grid fluid>
           <Card
             title="Add new job "
-            category="Are you looking for more components? Please check our Premium Version of Light Bootstrap Dashboard React."
+            category=""
             ctTableResponsive
             ctTableFullWidth
             ctTableUpgrade

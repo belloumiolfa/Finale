@@ -148,7 +148,7 @@ router.post(
 /******************************************************************************************************* */
 
 // @route   GET api/profile/:id
-// @desc    Get profile by handle
+// @desc    Get profile by id
 // @access  Public
 
 router.get("/:id", (req, res) => {

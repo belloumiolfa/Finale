@@ -16,7 +16,8 @@ import {
   DeleteJobAction,
   SaveJobAction,
   RemoveJobAction,
-  GetPubliatedJobsAction
+  GetPubliatedJobsAction,
+  PostulateAction
 } from "../../Redux/Actions/JobAction";
 
 //import components
@@ -26,6 +27,7 @@ import Button from "../../components/CustomButton/CustomButton";
 //import variables
 import { thArray } from "variables/Variables.jsx";
 import Search from "UserSpace/Job/Search/Search";
+import JobServices from "Services/JobServices";
 /************************************************************************************************* */
 class JobList extends Component {
   constructor(props) {
@@ -33,7 +35,9 @@ class JobList extends Component {
 
     this.state = {
       jobs: [],
-      user: {}
+      user: {},
+      error: "",
+      postulated: false
     };
   }
   /************************************************************************************************* */
@@ -42,7 +46,7 @@ class JobList extends Component {
 
     if (user.category !== "freelance" && user.category !== "admin") {
       this.props.GetUserJobsAction();
-    } else {
+    } else if (user.category === "freelance") {
       //get all job publiated
       this.props.GetPubliatedJobsAction();
     }
@@ -51,7 +55,7 @@ class JobList extends Component {
   componentDidMount = () => {
     const user = this.props.Auth.user;
 
-    this.setState({ user: user });
+    this.setState({ user: user.user });
     this.getJobs();
   };
   /************************************************************************************************* */
@@ -59,11 +63,20 @@ class JobList extends Component {
     if (nextProps.Job.jobs) {
       this.setState({ jobs: nextProps.Job.jobs });
     }
-    /* if (nextProps.Alert) {
+
+    if (nextProps.Alert) {
+      this.setState({ errors: nextProps.Alert });
+    }
+    /*
+    if (nextProps.Alert) {
       this.getJobs();
     }*/
   }
   /************************************************************************************************ */
+  handlePostulate = job => {
+    this.props.PostulateAction(job);
+    this.setState({ postulated: true });
+  };
   handlePubliate = job => {
     this.props.PubliateJobAction(job);
   };
@@ -86,7 +99,7 @@ class JobList extends Component {
   };
   /************************************************************************************************** */
   render() {
-    const { jobs, user } = this.state;
+    const { jobs, user, errors, postulated } = this.state;
 
     return (
       <div className="content">
@@ -113,169 +126,187 @@ class JobList extends Component {
                     >
                       Get all
                     </Button>
-                    <Table striped hover>
-                      <thead>
-                        <tr>
-                          {thArray.map((prop, key) => {
-                            return <th key={key}>{prop}</th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {jobs.map((job, key) => {
-                          return (
-                            <tr key={key}>
-                              <td>{job.title1}</td>
-                              <td>{job.salary}</td>
-                              <td>{job.region}</td>
-                              <td>{job.schedule}</td>
-                              <td>
-                                <Link to={`/user/job/${job._id}`}>Details</Link>
-                              </td>
-                              <td>
-                                {job.publiate === "true" ? (
+                    {jobs.length === 0 ? (
+                      <h3>There is no jobs </h3>
+                    ) : (
+                      <div>
+                        <Table striped hover>
+                          <thead>
+                            <tr>
+                              {thArray.map((prop, key) => {
+                                return <th key={key}>{prop}</th>;
+                              })}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {jobs.map((job, key) => {
+                              return (
+                                <tr key={key}>
+                                  <td>{job.title1}</td>
+                                  <td>{job.salary}</td>
+                                  <td>{job.region}</td>
+                                  <td>{job.schedule}</td>
                                   <td>
-                                    <Moment format="YYYY/MM/DD">
-                                      {job.publication}
-                                    </Moment>
+                                    <Link to={`/user/job/${job._id}`}>
+                                      Details
+                                    </Link>
                                   </td>
-                                ) : (
                                   <td>
-                                    {user.category !== "freelance" &&
-                                      user.category !== "admin" && (
+                                    {job.publiate === "true" ? (
+                                      <td>
+                                        <Moment format="YYYY/MM/DD">
+                                          {job.publication}
+                                        </Moment>
+                                      </td>
+                                    ) : (
+                                      <td>
+                                        {user.category !== "freelance" &&
+                                          user.category !== "admin" && (
+                                            <Button
+                                              bsStyle="dark"
+                                              simple
+                                              pullLeft
+                                              type="reset"
+                                              onClick={() =>
+                                                this.handlePostulate(job._id)
+                                              }
+                                            >
+                                              {/**publiate it  */}
+                                              <i className="pe-7s-share" />
+                                            </Button>
+                                          )}
+                                      </td>
+                                    )}
+                                  </td>
+                                  <td>
+                                    {job.finish === "true" ? (
+                                      <td>Finished</td>
+                                    ) : (
+                                      <td>
+                                        {user.category !== "freelance" &&
+                                          user.category !== "admin" && (
+                                            <div>
+                                              <Button
+                                                bsStyle="dark"
+                                                simple
+                                                pullLeft
+                                                onClick={() =>
+                                                  this.handleFinish(job._id)
+                                                }
+                                              >
+                                                {/**finish */}
+                                                <i className="pe-7s-check" />
+                                              </Button>
+                                              {/**update */}
+                                              <Button
+                                                bsStyle="dark"
+                                                simple
+                                                pullLeft
+                                                onClick={() =>
+                                                  this.handleUpdate(job._id)
+                                                }
+                                              >
+                                                <i className="pe-7s-tools" />
+                                              </Button>
+                                              {/**create workspace */}
+                                              <Button
+                                                bsStyle="dark"
+                                                simple
+                                                pullLeft
+                                                onClick={() =>
+                                                  this.handleWorkSpace(job._id)
+                                                }
+                                              >
+                                                <span>Work Space </span>
+                                              </Button>
+                                            </div>
+                                          )}
+                                      </td>
+                                    )}
+                                  </td>
+                                  {user.category !== "freelance" &&
+                                    user.category !== "admin" && (
+                                      <td>
+                                        {/**delete */}
                                         <Button
                                           bsStyle="dark"
                                           simple
-                                          pullLeft
-                                          type="reset"
+                                          pullRight
                                           onClick={() =>
-                                            this.handlePubliate(job._id)
+                                            this.handleDelete(job._id)
                                           }
                                         >
-                                          {/**publiate it  */}
-                                          <i className="pe-7s-share" />
+                                          <i className="pe-7s-trash" />
                                         </Button>
-                                      )}
-                                  </td>
-                                )}
-                              </td>
-                              <td>
-                                {job.finish === "true" ? (
-                                  <td>Finished</td>
-                                ) : (
-                                  <td>
-                                    {user.category !== "freelance" &&
-                                      user.category !== "admin" && (
+                                      </td>
+                                    )}
+
+                                  {user.category === "freelance" && (
+                                    <td>
+                                      {job.finish === "false" && (
                                         <div>
                                           <Button
                                             bsStyle="dark"
                                             simple
-                                            pullLeft
+                                            pullRight
                                             onClick={() =>
-                                              this.handleFinish(job._id)
+                                              this.handleRemove(job._id)
                                             }
                                           >
-                                            {/**finish */}
-                                            <i className="pe-7s-check" />
+                                            <i className="pe-7s-scissors" />
                                           </Button>
-                                          {/**update */}
+
                                           <Button
                                             bsStyle="dark"
                                             simple
-                                            pullLeft
+                                            pullRight
                                             onClick={() =>
-                                              this.handleUpdate(job._id)
+                                              this.handleSave(job._id)
                                             }
                                           >
-                                            <i className="pe-7s-tools" />
+                                            <i className="pe-7s-star" />
                                           </Button>
-                                          {/**create workspace */}
-                                          <Button
-                                            bsStyle="dark"
-                                            simple
-                                            pullLeft
-                                            onClick={() =>
-                                              this.handleWorkSpace(job._id)
-                                            }
-                                          >
-                                            <span>Work Space </span>
-                                          </Button>
+
+                                          {postulated ? (
+                                            <span>{errors.postulated}</span>
+                                          ) : (
+                                            <Button
+                                              bsStyle="info"
+                                              simple
+                                              pullRight
+                                              onClick={() =>
+                                                this.handlePostulate(job._id)
+                                              }
+                                            >
+                                              Postuler
+                                            </Button>
+                                          )}
                                         </div>
                                       )}
-                                  </td>
-                                )}
-                              </td>
-                              {user.category !== "freelance" &&
-                                user.category !== "admin" && (
-                                  <td>
-                                    {/**delete */}
-                                    <Button
-                                      bsStyle="dark"
-                                      simple
-                                      pullRight
-                                      onClick={() => this.handleDelete(job._id)}
-                                    >
-                                      <i className="pe-7s-trash" />
-                                    </Button>
-                                  </td>
-                                )}
-
-                              {user.category === "freelance" && (
-                                <td>
-                                  {job.finish === "false" && (
-                                    <div>
-                                      <Button
-                                        bsStyle="dark"
-                                        simple
-                                        pullRight
-                                        onClick={() =>
-                                          this.handleRemove(job._id)
-                                        }
-                                      >
-                                        <i className="pe-7s-scissors" />
-                                      </Button>
-
-                                      <Button
-                                        bsStyle="dark"
-                                        simple
-                                        pullRight
-                                        onClick={() => this.handleSave(job._id)}
-                                      >
-                                        <i className="pe-7s-star" />
-                                      </Button>
-
-                                      <Button
-                                        bsStyle="info"
-                                        simple
-                                        pullRight
-                                        onClick={() =>
-                                          this.handlePostulate(job._id)
-                                        }
-                                      >
-                                        Postuler
-                                      </Button>
-                                    </div>
+                                    </td>
                                   )}
-                                </td>
-                              )}
-                              {user.category === "admin" && (
-                                <td>
-                                  {/**delete */}
-                                  <Button
-                                    bsStyle="dark"
-                                    simple
-                                    pullRight
-                                    onClick={() => this.handleDelete(job._id)}
-                                  >
-                                    <i className="pe-7s-trash" />
-                                  </Button>
-                                </td>
-                              )}
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
+                                  {user.category === "admin" && (
+                                    <td>
+                                      {/**delete */}
+                                      <Button
+                                        bsStyle="dark"
+                                        simple
+                                        pullRight
+                                        onClick={() =>
+                                          this.handleDelete(job._id)
+                                        }
+                                      >
+                                        <i className="pe-7s-trash" />
+                                      </Button>
+                                    </td>
+                                  )}
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </Table>
+                      </div>
+                    )}
                   </div>
                 }
               />
@@ -305,6 +336,7 @@ export default connect(
     DeleteJobAction,
     SaveJobAction,
     RemoveJobAction,
-    GetPubliatedJobsAction
+    GetPubliatedJobsAction,
+    PostulateAction
   }
 )(withRouter(JobList));

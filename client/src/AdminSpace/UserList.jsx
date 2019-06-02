@@ -50,7 +50,7 @@ class UserList extends Component {
 
   handleInfos = id => {
     //redirect to user account
-    this.props.history.push("/user/profile/id");
+    this.props.history.push(`/admin/account/${id}`);
   };
   /**************************************************************************************************** */
 

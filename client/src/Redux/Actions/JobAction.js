@@ -47,6 +47,8 @@ export const GetPubliatedJobsAction = () => dispatch => {
   dispatch(setJobLoading);
   JobServices.getPubliatedJobs()
     .then(res => {
+      console.log(res.data);
+
       dispatch({
         type: JobTypes.GET_JOBS,
         payload: res.data
@@ -67,7 +69,6 @@ export const PubliateJobAction = job => dispatch => {
   JobServices.publiateJob(job)
     .then(res => {
       GetUserJobsAction();
-
       dispatch(AlertActions.success("Publiated"));
     })
     .catch(err => {
@@ -81,7 +82,6 @@ export const FinishJobAction = job => dispatch => {
   JobServices.finishJob(job)
     .then(res => {
       GetUserJobsAction();
-
       dispatch(AlertActions.success("Finished"));
     })
     .catch(err => {
@@ -146,15 +146,30 @@ export const SearchAction = filter => dispatch => {
   dispatch(setJobLoading);
   JobServices.searchJob(filter)
     .then(res => {
-      dispatch({
-        type: JobTypes.GET_JOBS,
-        payload: res.data
-      });
+      console.log(res);
+      if (res.data.length !== 0) {
+        dispatch({
+          type: JobTypes.GET_JOBS,
+          payload: res.data
+        });
+      }
     })
     .catch(e => {
       dispatch({
         type: JobTypes.GET_JOBS,
         payload: {}
       });
+      dispatch(AlertActions.error(e));
     });
+};
+/************************************************************************************************* */
+//Search action
+export const PostulateAction = job => dispatch => {
+  if (window.confirm("Are you sure? This can NOT be undone!")) {
+    JobServices.postulate(job)
+      .then(res => {
+        dispatch(AlertActions.success("Postulated"));
+      })
+      .catch(err => dispatch(AlertActions.error(err)));
+  }
 };

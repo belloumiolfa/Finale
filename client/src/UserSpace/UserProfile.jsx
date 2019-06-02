@@ -27,7 +27,6 @@ import { FormInputs } from "../components/FormInputs/FormInputs.jsx";
 import { UserCard } from "../components/UserCard/UserCard.jsx";
 import Button from "../components/CustomButton/CustomButton.jsx";
 import Spinners from "../components/Spinner/Spinners";
-import avatar from "assets/img/faces/face-3.jpg";
 import UserServices from "Services/UserServices";
 import AddExperience from "../UserSpace/AddExperience";
 import AddEducation from "../UserSpace/AddEducation";
@@ -88,6 +87,8 @@ class UserProfile extends Component {
 
     //create or update profile
     this.props.createProfileAction(this.state.profile);
+
+    this.props.history.push(`/user/account/${this.state.user._id}`);
 
     //update user informations
     this.props.updateUserAction(this.state.user);
@@ -716,7 +717,7 @@ class UserProfile extends Component {
         <Grid fluid>
           <Row>
             {errors.noprofile && (
-              <span>{errors.noprofile} - you can create one </span>
+              <h1>{errors.noprofile} - you can create one </h1>
             )}
             <Col md={8}>{dashboardContent}</Col>
             <Col md={4}>

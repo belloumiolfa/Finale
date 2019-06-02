@@ -102,7 +102,7 @@ UserSchema.methods.generateAuthToken = user => {
   const payload = { user };
   const privateKEY = ENV.tokenSecret;
   const signOptions = {
-    expiresIn: "12h"
+    expiresIn: 3600
   };
 
   //create object token
@@ -120,7 +120,7 @@ UserSchema.statics.findByToken = token => {
   var decoded;
 
   try {
-    decoded = jwt.verify(token, "formalab");
+    decoded = jwt.verify(token, "dgrgrfrdg");
   } catch (e) {
     return Promise.reject();
   }
@@ -137,10 +137,10 @@ UserSchema.statics.findByToken = token => {
 UserSchema.statics.generateConfirmationToken = user => {
   var access = "auth";
   // Create JWT Payload
-  const payload = { data1: user };
+  const payload = { user };
   const privateKEY = ENV.tokenSecret;
   const signOptions = {
-    expiresIn: "12h"
+    expiresIn: 3600
   };
   //create object token
   var token = "Bearer " + jwt.sign(payload, privateKEY, signOptions);

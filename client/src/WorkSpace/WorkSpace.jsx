@@ -7,13 +7,6 @@ import {
   ControlLabel,
   FormControl
 } from "react-bootstrap";
-//import routing dependencis
-import { withRouter } from "react-router-dom";
-
-//import redux dependencis
-import { connect } from "react-redux";
-
-//import actions
 
 //import components
 import Card from "components/Card/Card";
@@ -125,7 +118,7 @@ export default class WorkSpace extends Component {
   };
   /************************************************************************************************** */
   render() {
-    const { toDo, post, comment, workSpace } = this.state;
+    const { toDo, post } = this.state;
     return (
       <div>
         <NavBarWorkSpace {...this.props} brandText={this.getBrandText()} />
@@ -267,7 +260,7 @@ export default class WorkSpace extends Component {
                       </Table>
                       <form onSubmit={this.handleSubmitPost}>
                         <FormGroup controlId="formControlsTextarea">
-                          <ControlLabel> Description </ControlLabel>
+                          <ControlLabel> Post </ControlLabel>
                           <FormControl
                             rows="5"
                             componentClass="textarea"
@@ -285,9 +278,6 @@ export default class WorkSpace extends Component {
                           style={{ marginLeft: "10px" }}
                         >
                           Post
-                        </Button>
-                        <Button bsStyle="info" pullRight type="reset">
-                          Cancel
                         </Button>
                       </form>
                       <div style={{ marginTop: "5px" }}>

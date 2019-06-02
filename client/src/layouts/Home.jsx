@@ -52,7 +52,9 @@ class Home extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b>
+          Welcome to <b>TrustiT.WORK</b>-There are no secrets to success. It is
+          the result of preparation, hard work, and learning from failure.
+          "Colin Powell"
         </div>
       ),
       level: level,
@@ -133,7 +135,10 @@ class Home extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>TrustiT.WORK</b> -
+          Welcome to <b>TrustiT.WORK</b> -Keep your dreams alive. Understand to
+          achieve anything requires faith and belief in yourself, vision, hard
+          work, determination, and dedication. Remember all things are possible
+          for those who believe. "Gail Devers"
         </div>
       ),
       level: level,

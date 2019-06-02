@@ -3,7 +3,8 @@ import JobTypes from "../Types/JobTypes";
 const initialState = {
   jobs: [],
   job: {},
-  loading: false
+  loading: false,
+  postulate: false
 };
 
 export const job = (state = initialState, action) => {
@@ -29,6 +30,11 @@ export const job = (state = initialState, action) => {
       return {
         ...state,
         jobs: [action.payload, ...state.jobs]
+      };
+    case JobTypes.POSTULATE:
+      return {
+        ...state,
+        postulate: true
       };
     case JobTypes.DELETE_JOB:
       return {

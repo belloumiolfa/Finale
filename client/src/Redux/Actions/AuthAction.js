@@ -15,7 +15,6 @@ import SetAuthToken from "../../Services/SetAuthToken";
 export const SignUpAction = (userData, history) => dispatch => {
   UserServices.SignUp(userData)
     .then(res => {
-      console.log(res);
       history.push("/home/wait");
     })
     .catch(err => dispatch(AlertActions.error(err.response.data)));
@@ -56,14 +55,15 @@ export const RefuseUser = user => dispatch => {
 };
 /********************************************************************************************** */
 //confirm action
-export const ConfirmAction = token => dispatch => {
+export const ConfirmAction = (token, history) => dispatch => {
   UserServices.confirm(token)
     .then(res => {
-      console.log(res);
       //get user
       const user = res.data.user;
-      //directely sign in
-      SignInAction(user);
+      dispatch({
+        type: AuthTypes.CONFIRM,
+        payload: true
+      });
     })
     .catch(err => {
       dispatch(AlertActions.error(err.response.data));
@@ -71,27 +71,53 @@ export const ConfirmAction = token => dispatch => {
 };
 /********************************************************************************************** */
 //sign in action
-export const SignInAction = userData => dispatch => {
+export const SignInAction = (userData, history) => dispatch => {
+  console.log("confiirm");
+
   UserServices.SignIn(userData)
     .then(res => {
-      // Save to localStorage
-      const token = res.data.user.token;
-      // Set token to ls
-      localStorage.setItem("jwtToken", token);
+      if (res.data.user.category === "admin") {
+        // Save to localStorage
+        const token = res.data.user.token;
+        // Set token to ls
+        localStorage.setItem("jwtToken", token);
 
-      // Set token to Auth header
-      SetAuthToken(token);
+        // Set token to Auth header
+        SetAuthToken(token);
 
-      // Decode token to get user data
-      const decoded = jwt_decode(token);
+        // Decode token to get user data
+        const decoded = jwt_decode(token);
 
-      // Set current user
-      dispatch({
-        type: UserTypes.SIGN_IN,
-        payload: decoded.user
-      });
+        // Set current user
+        dispatch({
+          type: UserTypes.SIGN_IN,
+          payload: decoded.user
+        });
+        history.push("/admin/dashboard");
+      } else {
+        if (res.data.user.confirmed) {
+          // Save to localStorage
+          const token = res.data.user.token;
+          // Set token to ls
+          localStorage.setItem("jwtToken", token);
+
+          // Set token to Auth header
+          SetAuthToken(token);
+
+          // Decode token to get user data
+          const decoded = jwt_decode(token);
+          // Set current user
+          dispatch({
+            type: UserTypes.SIGN_IN,
+            payload: decoded.user
+          });
+          history.push("/user/profile");
+        } else {
+          history.push("/home/wait");
+        }
+      }
     })
-    .catch(err => dispatch(AlertActions.error(err.response.data)));
+    .catch(err => dispatch(AlertActions.error(err)));
 };
 /********************************************************************************************** */
 // Sign user out
@@ -100,6 +126,8 @@ export const SignOutAction = () => dispatch => {
     .then(res => {
       // Remove token from localStorage
       localStorage.removeItem("jwtToken");
+      console.log(localStorage.getItem("jwtToken"));
+
       // Remove auth header for future requests
       SetAuthToken(false);
       // Set current user to {} which will set isAuthenticated to false

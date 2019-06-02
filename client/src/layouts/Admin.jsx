@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
 
+//import routing dependencis
+import { withRouter } from "react-router-dom";
+
+//import redux dependencis
+import { connect } from "react-redux";
+
 import UserNavBar from "../components/Navbars/UserNavBar";
 import Footer from "../components/Footer/Footer";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -12,7 +18,7 @@ import { style } from "variables/Variables.jsx";
 import routes from "routes.js";
 
 import image from "assets/img/sidebar-3.jpg";
-
+/*************************************************************************************************** */
 class Admin extends Component {
   constructor(props) {
     super(props);
@@ -47,8 +53,7 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
+          Welcome to <b>TrustiT.WORK</b>
         </div>
       ),
       level: level,
@@ -129,14 +134,16 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
+          Welcome to <b>TrustiT.WORK</b>
         </div>
       ),
       level: level,
       position: "tr",
       autoDismiss: 15
     });
+    if (this.props.Auth.user.category !== "admin") {
+      this.props.history.push("/home");
+    }
   }
   componentDidUpdate(e) {
     if (
@@ -186,4 +193,16 @@ class Admin extends Component {
   }
 }
 
-export default Admin;
+//map store's state to component's props
+//authentification comes from root reducer the attribut that content AuthReducer
+const mapStateToProps = state => ({
+  Auth: state.Authentification,
+  Alert: state.Alert,
+  Profile: state.Profile
+});
+
+//map actions and state
+export default connect(
+  mapStateToProps,
+  {}
+)(withRouter(Admin));

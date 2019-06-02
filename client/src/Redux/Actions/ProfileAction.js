@@ -28,6 +28,7 @@ export const CurrentProfileAction = () => dispatch => {
 /******************************************************************************************************** */
 // Create Profile
 export const createProfileAction = profileData => dispatch => {
+  AlertActions.error();
   ProfileServices.createProfile(profileData)
     .then(res => {
       dispatch({
@@ -139,6 +140,21 @@ export const getProfilesAction = category => dispatch => {
     .then(res => {
       dispatch({
         type: ProfileTypes.GET_PROFILES,
+        payload: res.data
+      });
+    })
+    .catch(err => dispatch(AlertActions.error(err)));
+};
+/**************************************************************************************************** */
+
+// Get profile by id
+
+export const getProfilesByUserIdAction = id => dispatch => {
+  dispatch(setProfileLoading());
+  ProfileServices.getProfileByUserId(id)
+    .then(res => {
+      dispatch({
+        type: ProfileTypes.GET_PROFILE,
         payload: res.data
       });
     })

@@ -26,6 +26,8 @@ class Icons extends Component {
                 content={
                   <Row>
                     {profiles.map((profile, key) => {
+                      console.log(profile);
+
                       if (
                         profile.user.category === "client" ||
                         profile.user.category === "freelance"

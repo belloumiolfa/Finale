@@ -11,7 +11,8 @@ const JobServices = {
   verifSavedJob,
   getJobById,
   searchJob,
-  getPubliatedJobs
+  getPubliatedJobs,
+  postulate
 };
 /******************************************************************* */
 function addJob(job) {
@@ -26,6 +27,13 @@ function getCurrentUserJob() {
   return axios({
     method: "get",
     url: `${APT_url}/job/`
+  });
+}
+/******************************************************************* */
+function postulate(job) {
+  return axios({
+    method: "post",
+    url: `${APT_url}/job/postulate/${job}`
   });
 }
 /******************************************************************* */

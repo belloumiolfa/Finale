@@ -20,6 +20,7 @@ import UserTypes from "./Redux/Types/UserTypes";
 //import actions
 import { SignOutAction } from "Redux/Actions/AuthAction";
 import { clearCurrentProfile } from "./Redux/Actions/ProfileAction";
+
 //import layouts
 import UserLayaout from "layouts/User";
 import Home from "layouts/Home";
@@ -36,12 +37,13 @@ if (localStorage.jwtToken) {
   SetAuthToken(localStorage.jwtToken);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
+
   // Set user and isAuthenticated
   Store.dispatch({
     type: UserTypes.SIGN_IN,
-    payload: decoded.user
+    payload: decoded
   });
-  /*
+
   // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
@@ -57,7 +59,7 @@ if (localStorage.jwtToken) {
 
     // Redirect to login
     window.location.href = "/home/sign-in";
-  }*/
+  }
 }
 /**************************************************************************** */
 ReactDOM.render(

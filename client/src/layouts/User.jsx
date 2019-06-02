@@ -55,8 +55,8 @@ class User extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
+          Welcome to <b>TrustiT.WORK</b> -Self-belief and hard work will always
+          earn you success. "Virat Kohli"
         </div>
       ),
       level: level,
@@ -94,7 +94,7 @@ class User extends Component {
         return routes.dashboardRoutes[i].name;
       }
     }
-    return "Brand";
+    return "TrustiT.WORK";
   };
   handleImageClick = image => {
     this.setState({ image: image });
@@ -137,8 +137,8 @@ class User extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
+          Welcome to <b>TrustiT.WORK</b> -Through hard work, perseverance and a
+          faith in God, you can live your dreams. "Ben Carson"
         </div>
       ),
       level: level,

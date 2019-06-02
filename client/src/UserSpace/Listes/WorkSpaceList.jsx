@@ -25,17 +25,7 @@ class WorkSpaceList extends Component {
                         })}
                       </tr>
                     </thead>
-                    <tbody>
-                      {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
+                    <tbody />
                   </Table>
                 }
               />

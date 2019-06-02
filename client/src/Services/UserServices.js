@@ -85,11 +85,11 @@ function deleteUser(id) {
   });
 }
 /***************************************************************** */
-function confirm(token) {
+function confirm(id) {
   return axios({
     method: "post",
     url: `${APT_url}/user/confirm`,
-    data: { token }
+    data: { id }
   });
 }
 /***************************************************************** */
